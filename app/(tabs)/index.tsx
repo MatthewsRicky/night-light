@@ -1,15 +1,16 @@
-import { Text, View } from "react-native";
+// App.tsx
+import { useKeepAwake } from "expo-keep-awake";
+import React from "react";
+import { SafeAreaView, StatusBar } from "react-native";
+import Home from "./home";
 
-export default function Index() {
+export default function App() {
+  useKeepAwake();
+
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
-    </View>
+    <SafeAreaView>
+      <StatusBar hidden />
+      <Home />
+    </SafeAreaView>
   );
 }
