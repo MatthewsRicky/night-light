@@ -1,13 +1,22 @@
+// screens/HomeScreen.tsx
+// Update the import path to the correct relative path
+import FlickerLight from "@/components/FlickerLight";
 import React from "react";
-import { SafeAreaView, Text } from "react-native";
-import "../globals.css";
+import { View, StyleSheet } from "react-native";
 
-const home = () => {
+
+const Home = () => {
   return (
-    <SafeAreaView>
-      <Text className="flex items-center justify-center">home</Text>
-    </SafeAreaView>
+    <View style={styles.container}>
+      <FlickerLight />
+    </View>
   );
 };
 
-export default home;
+export default Home;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
