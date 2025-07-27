@@ -1,39 +1,58 @@
-// components/FlickerLight.tsx
-import React, { useEffect } from "react";
-import { Dimensions } from "react-native";
-import Animated, {
-  interpolateColor,
-  useAnimatedStyle,
-  useSharedValue,
-  withRepeat,
-  withTiming,
-} from "react-native-reanimated";
+import React, { useEffect, useRef } from "react";
+import { Animated, Easing } from "react-native";
 
-const { width, height } = Dimensions.get("window");
+interface FlickerLightProps {
+  color?: string; // Dynamic color from warmth slider
+}
 
-const COLOR_START = "#ffbb73"; // soft amber
-const COLOR_END = "#ff9933"; // deeper warm orange
-
-export default function FlickerLight() {
-  const flicker = useSharedValue(0);
+export default function FlickerLight({
+  color = "rgb(255, 180, 100)",
+}: FlickerLightProps) {
+  const flickerAnim = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
-    flicker.value = withRepeat(withTiming(1, { duration: 300 }), -1, true);
-  }, []);
-
-  const animatedStyle = useAnimatedStyle(() => {
-    const backgroundColor = interpolateColor(
-      flicker.value,
-      [0, 1],
-      [COLOR_START, COLOR_END]
+    const loop = Animated.loop(
+      Animated.sequence([
+        Animated.timing(flickerAnim, {
+          toValue: 0.8,
+          duration: 80,
+          easing: Easing.inOut(Easing.ease),
+          useNativeDriver: true,
+        }),
+        Animated.timing(flickerAnim, {
+          toValue: 1,
+          duration: 120,
+          easing: Easing.inOut(Easing.ease),
+          useNativeDriver: true,
+        }),
+        Animated.timing(flickerAnim, {
+          toValue: 0.85,
+          duration: 90,
+          easing: Easing.inOut(Easing.ease),
+          useNativeDriver: true,
+        }),
+        Animated.timing(flickerAnim, {
+          toValue: 1,
+          duration: 100,
+          easing: Easing.inOut(Easing.ease),
+          useNativeDriver: true,
+        }),
+      ])
     );
 
-    return {
-      width,
-      height,
-      backgroundColor,
-    };
-  });
+    loop.start();
 
-  return <Animated.View className="flex-1" style={animatedStyle} />;
+    return () => loop.stop();
+  }, []);
+
+  return (
+    <Animated.View
+      className="absolute inset-0"
+      style={{
+        backgroundColor: color,
+        opacity: flickerAnim,
+      }}
+    />
+    
+  );
 }
