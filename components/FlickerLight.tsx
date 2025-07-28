@@ -64,7 +64,7 @@ export default function FlickerLight({ baseColor }: Props) {
       style={[
         StyleSheet.absoluteFill,
         {
-          backgroundColor: color,
+          backgroundColor: baseColor,
           opacity: opacityAnim,
         },
       ]}
