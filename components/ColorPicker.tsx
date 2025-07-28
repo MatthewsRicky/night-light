@@ -1,45 +1,61 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { useState } from "react";
+import { View, Text } from "react-native";
 import Slider from "@react-native-community/slider";
-import { useEffect, useState } from "react";
-import { Text, View } from "react-native";
 
-export default function ColorPicker({
-  onChange,
-}: {
-  onChange?: (color: string) => void;
-}) {
-  const [warmth, setWarmth] = useState(30); // 0–100
+type Props = {
+  onChange: (color: string) => void;
+};
 
-  useEffect(() => {
-    (async () => {
-      const stored = await AsyncStorage.getItem("colorWarmth");
-      if (stored) setWarmth(Number(stored));
-    })();
-  }, []);
+export default function ColorPicker({ onChange }: Props) {
+  const [r, setR] = useState(255);
+  const [g, setG] = useState(180);
+  const [b, setB] = useState(100);
 
-  useEffect(() => {
-    AsyncStorage.setItem("colorWarmth", warmth.toString());
-
-    const red = 255;
-    const green = Math.floor(150 + warmth);
-    const blue = Math.floor(100 - warmth);
-    const color = `rgb(${red},${green},${blue})`;
-
-    onChange?.(color);
-  }, [warmth]);
+  const updateColor = (rVal: number, gVal: number, bVal: number) => {
+    const newColor = `rgb(${Math.floor(rVal)}, ${Math.floor(gVal)}, ${Math.floor(bVal)})`;
+    onChange(newColor);
+  };
 
   return (
-    <View className="p-4">
-      <Text className="text-white mb-2">Light Warmth: {warmth}</Text>
+    <View className="w-full px-4 space-y-4">
+      <Text className="text-white text-sm">Red</Text>
       <Slider
-        minimumValue={0}
-        maximumValue={100}
-        value={warmth}
-        onValueChange={setWarmth}
-        step={1}
-        minimumTrackTintColor="#FFBF70"
-        maximumTrackTintColor="#888"
+        minimumValue={100}
+        maximumValue={255}
+        value={r}
+        onValueChange={(val) => {
+          setR(val);
+          updateColor(val, g, b);
+        }}
+        minimumTrackTintColor="#FF6666"
         thumbTintColor="#fff"
+        style={{ height: 40 }}
+      />
+      <Text className="text-white text-sm">Green</Text>
+      <Slider
+        minimumValue={80}
+        maximumValue={200}
+        value={g}
+        onValueChange={(val) => {
+          setG(val);
+          updateColor(r, val, b);
+        }}
+        minimumTrackTintColor="#FFD580"
+        thumbTintColor="#fff"
+        style={{ height: 40 }}
+      />
+      <Text className="text-white text-sm">Blue</Text>
+      <Slider
+        minimumValue={30}
+        maximumValue={150}
+        value={b}
+        onValueChange={(val) => {
+          setB(val);
+          updateColor(r, g, val);
+        }}
+        minimumTrackTintColor="#FFB347"
+        thumbTintColor="#fff"
+        style={{ height: 40 }}
       />
     </View>
   );

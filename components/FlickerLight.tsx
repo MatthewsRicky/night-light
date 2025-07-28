@@ -1,58 +1,73 @@
-import React, { useEffect, useRef } from "react";
-import { Animated, Easing } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { Animated, Easing, StyleSheet } from "react-native";
 
-interface FlickerLightProps {
-  color?: string; // Dynamic color from warmth slider
+type Props = {
+  baseColor: string;
+};
+
+function generateFlickerColor(baseColor: string): string {
+  const [r, g, b] = baseColor
+    .replace(/[^\d,]/g, "")
+    .split(",")
+    .map(Number);
+
+  const jitter = (val: number, range = 20) =>
+    Math.max(
+      0,
+      Math.min(255, val + Math.floor(Math.random() * range - range / 2))
+    );
+
+  return `rgb(${jitter(r, 8)}, ${jitter(g, 10)}, ${jitter(b, 12)})`;
 }
 
-export default function FlickerLight({
-  color = "rgb(255, 180, 100)",
-}: FlickerLightProps) {
-  const flickerAnim = useRef(new Animated.Value(1)).current;
+export default function FlickerLight({ baseColor }: Props) {
+  const opacityAnim = useRef(new Animated.Value(1)).current;
+  const [color, setColor] = useState(baseColor);
 
   useEffect(() => {
-    const loop = Animated.loop(
+    let isMounted = true;
+
+    const flickerLoop = () => {
+      if (!isMounted) return;
+
+      const newColor = generateFlickerColor(baseColor);
+      setColor(newColor);
+
       Animated.sequence([
-        Animated.timing(flickerAnim, {
-          toValue: 0.8,
-          duration: 80,
+        Animated.timing(opacityAnim, {
+          toValue: 0.95 + Math.random() * 0.05,
+          duration: 80 + Math.random() * 40,
           easing: Easing.inOut(Easing.ease),
           useNativeDriver: true,
         }),
-        Animated.timing(flickerAnim, {
-          toValue: 1,
-          duration: 120,
-          easing: Easing.inOut(Easing.ease),
-          useNativeDriver: true,
-        }),
-        Animated.timing(flickerAnim, {
-          toValue: 0.85,
-          duration: 90,
-          easing: Easing.inOut(Easing.ease),
-          useNativeDriver: true,
-        }),
-        Animated.timing(flickerAnim, {
+        Animated.timing(opacityAnim, {
           toValue: 1,
           duration: 100,
           easing: Easing.inOut(Easing.ease),
           useNativeDriver: true,
         }),
-      ])
-    );
+      ]).start(() => {
+        requestAnimationFrame(flickerLoop);
+      });
+    };
 
-    loop.start();
+    flickerLoop();
 
-    return () => loop.stop();
-  }, []);
+    return () => {
+      isMounted = false;
+      opacityAnim.stopAnimation();
+    };
+  }, [baseColor]);
 
   return (
     <Animated.View
-      className="absolute inset-0"
-      style={{
-        backgroundColor: color,
-        opacity: flickerAnim,
-      }}
+      style={[
+        StyleSheet.absoluteFill,
+        {
+          backgroundColor: color,
+          opacity: opacityAnim,
+        },
+      ]}
     />
-    
   );
 }
