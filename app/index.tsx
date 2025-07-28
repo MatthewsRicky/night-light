@@ -1,9 +1,9 @@
-import ColorPicker from "@/components/ColorPicker";
-import FlickerLight from "@/components/FlickerLight";
 import * as ScreenOrientation from "expo-screen-orientation";
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import { Pressable, Text, View } from "react-native";
+import FlickerLight from "../components/FlickerLight";
+import SettingsScreen from "./settings"; // <- reuse component directly
 
 export default function HomeScreen() {
   const [started, setStarted] = useState(false);
@@ -17,16 +17,18 @@ export default function HomeScreen() {
   };
 
   return (
-    <View className="flex-1 bg-black">
+    <View className="flex h-screen bg-black">
       <StatusBar hidden={started} style="light" />
-      <FlickerLight baseColor={lightColor} />
+
+      {/* Show flicker only AFTER start */}
+      {started && <FlickerLight baseColor={lightColor} />}
 
       {!started && (
-        <View className="absolute inset-0 justify-center items-center space-y-6 px-6">
-          <ColorPicker onChange={setLightColor} />
+        <View className="flex items-center justify-center px-6 space-y-8">
+          <SettingsScreen onChange={setLightColor} />
           <Pressable
             onPress={handleStart}
-            className="bg-white/80 px-6 py-3 rounded-xl"
+            className="bg-white/80 px-6 py-3 rounded-xl self-center"
           >
             <Text className="text-black text-lg font-bold">Start</Text>
           </Pressable>
