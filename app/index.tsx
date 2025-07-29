@@ -1,13 +1,21 @@
+import { useNavigation } from "expo-router";
 import * as ScreenOrientation from "expo-screen-orientation";
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
-import { Pressable, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  Pressable,
+  SafeAreaView,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import FlickerLight from "../components/FlickerLight";
-import SettingsScreen from "./settings"; // <- reuse component directly
+import "./globals.css";
 
 export default function HomeScreen() {
   const [started, setStarted] = useState(false);
-  const [lightColor, setLightColor] = useState("rgb(255, 180, 100)");
+
+  const navigation = useNavigation();
 
   const handleStart = async () => {
     await ScreenOrientation.lockAsync(
@@ -16,24 +24,39 @@ export default function HomeScreen() {
     setStarted(true);
   };
 
+  const handleStop = async () => {
+    await ScreenOrientation.unlockAsync();
+    setStarted(false);
+  };
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerShown: !started,
+      tabBarStyle: { display: started ? "none" : "flex" },
+    });
+  }, [started]);
   return (
-    <View className="flex h-screen bg-black">
+    <SafeAreaView className="flex-1 bg-black">
       <StatusBar hidden={started} style="light" />
 
-      {/* Show flicker only AFTER start */}
-      {started && <FlickerLight baseColor={lightColor} />}
-
-      {!started && (
-        <View className="flex items-center justify-center px-6 space-y-8">
-          <SettingsScreen onChange={setLightColor} />
+      {started ? (
+        <TouchableWithoutFeedback onPress={handleStop}>
+          <View className="flex-1">
+            <FlickerLight />
+          </View>
+        </TouchableWithoutFeedback>
+      ) : (
+        <View className="flex-1 mx-auto justify-center items-center">
           <Pressable
             onPress={handleStart}
-            className="bg-white/80 px-6 py-3 rounded-xl self-center"
+            className="bg-emerald-400/80 px-6 py-3 rounded-xl"
           >
-            <Text className="text-black text-lg font-bold">Start</Text>
+            <Text className="text-black underline underline-offset-2 font-bold text-3xl p-2">
+              Start
+            </Text>
           </Pressable>
         </View>
       )}
-    </View>
+    </SafeAreaView>
   );
 }
