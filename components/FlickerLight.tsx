@@ -11,10 +11,11 @@ import Animated, {
 
 const { width, height } = Dimensions.get("window");
 
-const COLOR_START = "#ffbb73"; // soft amber
-const COLOR_END = "#ff9933"; // deeper warm orange
+interface Props {
+  warmth: number; // 0 to 1
+}
 
-export default function FlickerLight() {
+export default function FlickerLight({ warmth }: Props) {
   const flicker = useSharedValue(0);
 
   useEffect(() => {
@@ -22,16 +23,21 @@ export default function FlickerLight() {
   }, []);
 
   const animatedStyle = useAnimatedStyle(() => {
-    const backgroundColor = interpolateColor(
+    // Interpolate colors based on warmth
+    const cool = "#ffecc7";
+    const warm = "#ff9933";
+    const baseColor = interpolateColor(warmth, [0, 1], [cool, warm]);
+
+    const flickerColor = interpolateColor(
       flicker.value,
       [0, 1],
-      [COLOR_START, COLOR_END]
+      [baseColor, "#ffbb73"]
     );
 
     return {
       width,
       height,
-      backgroundColor,
+      backgroundColor: flickerColor,
     };
   });
 

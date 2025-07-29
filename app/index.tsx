@@ -1,3 +1,4 @@
+import ColorPicker from "@/components/ColorPicker";
 import { useNavigation } from "expo-router";
 import * as ScreenOrientation from "expo-screen-orientation";
 import { StatusBar } from "expo-status-bar";
@@ -14,6 +15,7 @@ import "./globals.css";
 
 export default function HomeScreen() {
   const [started, setStarted] = useState(false);
+  const [warmth, setWarmth] = useState(0.5);
 
   const navigation = useNavigation();
 
@@ -42,11 +44,12 @@ export default function HomeScreen() {
       {started ? (
         <TouchableWithoutFeedback onPress={handleStop}>
           <View className="flex-1">
-            <FlickerLight />
+            <FlickerLight warmth={warmth} />
           </View>
         </TouchableWithoutFeedback>
       ) : (
-        <View className="flex-1 mx-auto justify-center items-center">
+        <View className="flex-1 justify-center items-center">
+          <ColorPicker value={warmth} onChange={setWarmth} />
           <Pressable
             onPress={handleStart}
             className="bg-emerald-400/80 px-6 py-3 rounded-xl"

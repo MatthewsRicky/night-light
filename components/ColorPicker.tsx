@@ -1,61 +1,26 @@
+// components/ColorPicker.tsx
+import React from "react";
+import { View, Text } from "react-native";
 import Slider from "@react-native-community/slider";
-import React, { useState } from "react";
-import { Text, View } from "react-native";
 
-type Props = {
-  onChange: (color: string) => void;
-};
+interface Props {
+  value: number;
+  onChange: (val: number) => void;
+}
 
-export default function ColorPicker({ onChange }: Props) {
-  const [r, setR] = useState(255);
-  const [g, setG] = useState(180);
-  const [b, setB] = useState(100);
-
-  const updateColor = (rVal: number, gVal: number, bVal: number) => {
-    const newColor = `rgb(${Math.floor(rVal)}, ${Math.floor(gVal)}, ${Math.floor(bVal)})`;
-    onChange(newColor);
-  };
-
+export default function ColorPicker({ value, onChange }: Props) {
   return (
-    <View className="w-full px-4 space-y-4">
-      <Text className="text-white text-sm">Red</Text>
+    <View className="w-4/5 items-center space-y-2">
+      <Text className="text-white">Color Warmth</Text>
       <Slider
-        minimumValue={100}
-        maximumValue={255}
-        value={r}
-        onValueChange={(val) => {
-          setR(val);
-          updateColor(val, g, b);
-        }}
-        minimumTrackTintColor="#FF6666"
-        thumbTintColor="#fff"
-        style={{ height: 40 }}
-      />
-      <Text className="text-white text-sm">Green</Text>
-      <Slider
-        minimumValue={80}
-        maximumValue={200}
-        value={g}
-        onValueChange={(val) => {
-          setG(val);
-          updateColor(r, val, b);
-        }}
-        minimumTrackTintColor="#FFD580"
-        thumbTintColor="#fff"
-        style={{ height: 40 }}
-      />
-      <Text className="text-white text-sm">Blue</Text>
-      <Slider
-        minimumValue={30}
-        maximumValue={150}
-        value={b}
-        onValueChange={(val) => {
-          setB(val);
-          updateColor(r, g, val);
-        }}
-        minimumTrackTintColor="#FFB347"
-        thumbTintColor="#fff"
-        style={{ height: 40 }}
+        style={{ width: "100%", height: 40 }}
+        minimumValue={0}
+        maximumValue={1}
+        value={value}
+        onValueChange={onChange}
+        minimumTrackTintColor="#FF9900"
+        maximumTrackTintColor="#FFD580"
+        thumbTintColor="#FFF"
       />
     </View>
   );
