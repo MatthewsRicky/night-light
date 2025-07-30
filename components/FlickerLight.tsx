@@ -1,43 +1,51 @@
 // components/FlickerLight.tsx
+
 import React, { useEffect } from "react";
 import { Dimensions } from "react-native";
 import Animated, {
-  useSharedValue,
+  cancelAnimation,
+  interpolateColor,
   useAnimatedStyle,
+  useSharedValue,
   withRepeat,
   withTiming,
-  interpolateColor,
 } from "react-native-reanimated";
+import { useLighting } from "../context/LightingContext";
 
 const { width, height } = Dimensions.get("window");
 
-interface Props {
-  warmth: number; // 0 to 1
-}
+export default function FlickerLight() {
+  const { warmth, mode, flickerSpeed } = useLighting();
 
-export default function FlickerLight({ warmth }: Props) {
   const flicker = useSharedValue(0);
 
   useEffect(() => {
-    flicker.value = withRepeat(withTiming(1, { duration: 300 }), -1, true);
-  }, []);
+    if (mode === "flicker") {
+      flicker.value = withRepeat(
+        withTiming(1, { duration: flickerSpeed }),
+        -1,
+        true
+      );
+    } else {
+      cancelAnimation(flicker);
+      flicker.value = 1; // hold a single color in ambient mode
+    }
+  }, [mode, flickerSpeed]);
 
   const animatedStyle = useAnimatedStyle(() => {
-    // Interpolate colors based on warmth
-    const cool = "#ffecc7";
-    const warm = "#ff9933";
-    const baseColor = interpolateColor(warmth, [0, 1], [cool, warm]);
+    const coolColor = "#ffecc7";
+    const warmColor = "#ff9933";
+    const baseColor = interpolateColor(warmth, [0, 1], [coolColor, warmColor]);
 
-    const flickerColor = interpolateColor(
-      flicker.value,
-      [0, 1],
-      [baseColor, "#ffbb73"]
-    );
+    const backgroundColor =
+      mode === "ambient"
+        ? baseColor
+        : interpolateColor(flicker.value, [0, 1], [baseColor, "#ffbb73"]);
 
     return {
       width,
       height,
-      backgroundColor: flickerColor,
+      backgroundColor,
     };
   });
 
