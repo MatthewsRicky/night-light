@@ -38,7 +38,7 @@ export default function HomeScreen() {
     });
   }, [started]);
   return (
-    <SafeAreaView className="flex-1 bg-black">
+    <View className="flex-1 bg-blue-300/40">
       <StatusBar hidden={started} style="light" />
 
       {started ? (
@@ -48,18 +48,18 @@ export default function HomeScreen() {
           </View>
         </TouchableWithoutFeedback>
       ) : (
-        <View className="flex-1 justify-center items-center">
+        <View className="flex-1 justify-around items-center">
           <ColorPicker value={warmth} onChange={setWarmth} />
           <Pressable
             onPress={handleStart}
-            className="bg-emerald-400/80 px-6 py-3 rounded-xl"
+            className="bg-emerald-400/10 shadow-slate-100 px-6 py-3 rounded-xl"
           >
-            <Text className="text-black underline underline-offset-2 font-bold text-3xl p-2">
+            <Text className="text-black font-semibold text-xl p-2">
               Start
             </Text>
           </Pressable>
         </View>
       )}
-    </SafeAreaView>
+    </View>
   );
 }
