@@ -11,7 +11,7 @@ interface Props {
 export default function ColorPicker({ value, onChange }: Props) {
   return (
     <View className="w-4/5 items-center space-y-2">
-      <Text className="text-white">Color Warmth</Text>
+      <Text className="text-black font-medium">Color Warmth</Text>
       <Slider
         style={{ width: "100%", height: 40 }}
         minimumValue={0}
