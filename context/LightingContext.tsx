@@ -12,6 +12,7 @@ interface LightingContextProps {
 const LightingContext = createContext<LightingContextProps | undefined>(
   undefined
 );
+
 export const LightingProvider = ({
   children,
 }: {
