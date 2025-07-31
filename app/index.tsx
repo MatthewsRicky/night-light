@@ -3,13 +3,7 @@ import { useNavigation } from "expo-router";
 import * as ScreenOrientation from "expo-screen-orientation";
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
-import {
-  Pressable,
-  SafeAreaView,
-  Text,
-  TouchableWithoutFeedback,
-  View,
-} from "react-native";
+import { Pressable, Text, TouchableWithoutFeedback, View } from "react-native";
 import FlickerLight from "../components/FlickerLight";
 import "./globals.css";
 
@@ -44,7 +38,7 @@ export default function HomeScreen() {
       {started ? (
         <TouchableWithoutFeedback onPress={handleStop}>
           <View className="flex-1">
-            <FlickerLight warmth={warmth} />
+            <FlickerLight />
           </View>
         </TouchableWithoutFeedback>
       ) : (
@@ -54,9 +48,7 @@ export default function HomeScreen() {
             onPress={handleStart}
             className="bg-emerald-400/10 shadow-slate-100 px-6 py-3 rounded-xl"
           >
-            <Text className="text-black font-semibold text-xl p-2">
-              Start
-            </Text>
+            <Text className="text-black font-semibold text-xl p-2">Start</Text>
           </Pressable>
         </View>
       )}
