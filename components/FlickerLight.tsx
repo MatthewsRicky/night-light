@@ -1,5 +1,3 @@
-// components/FlickerLight.tsx
-
 import React, { useEffect } from "react";
 import { Dimensions } from "react-native";
 import Animated, {
@@ -28,16 +26,18 @@ export default function FlickerLight() {
       );
     } else {
       cancelAnimation(flicker);
-      flicker.value = 1; // hold a single color in ambient mode
+      flicker.value = 1;
     }
   }, [mode, flickerSpeed]);
 
   const animatedStyle = useAnimatedStyle(() => {
-    const coolColor = "#ffecc7";
-    const warmColor = "#ff9933";
-    const baseColor = interpolateColor(warmth, [0, 1], [coolColor, warmColor]);
+    const baseColor = interpolateColor(
+      warmth,
+      [0, 1],
+      ["#ffecc7", "#ff9933"] // cool → warm
+    );
 
-    const backgroundColor =
+    const flickerColor =
       mode === "ambient"
         ? baseColor
         : interpolateColor(flicker.value, [0, 1], [baseColor, "#ffbb73"]);
@@ -45,7 +45,7 @@ export default function FlickerLight() {
     return {
       width,
       height,
-      backgroundColor,
+      backgroundColor: flickerColor,
     };
   });
 
