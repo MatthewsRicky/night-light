@@ -15,6 +15,7 @@ const { width, height } = Dimensions.get("window");
 export default function FlickerLight() {
   const { warmth, mode, flickerSpeed } = useLighting();
 
+  console.log(warmth);
   const flicker = useSharedValue(0);
 
   useEffect(() => {
