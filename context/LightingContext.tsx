@@ -1,12 +1,16 @@
 import React, { createContext, useContext, useState } from "react";
 
+type Mood = "warm" | "cool" | "green" | "purple" | "pink" | "yellow";
+
 interface LightingContextProps {
-  warmth: number;
-  setWarmth: (value: number) => void;
   mode: "flicker" | "ambient";
   setMode: (mode: "flicker" | "ambient") => void;
   flickerSpeed: number;
   setFlickerSpeed: (value: number) => void;
+  mood: Mood;
+  setMood: (value: Mood) => void;
+  warmth: number;
+  setWarmth: (value: number) => void;
 }
 
 const LightingContext = createContext<LightingContextProps | undefined>(
@@ -21,15 +25,18 @@ export const LightingProvider = ({
   const [warmth, setWarmth] = useState(0.5);
   const [mode, setMode] = useState<"flicker" | "ambient">("flicker");
   const [flickerSpeed, setFlickerSpeed] = useState(300);
+  const [mood, setMood] = useState<Mood>("warm");
 
   return (
     <LightingContext.Provider
       value={{
-        warmth,
-        setWarmth,
+        mood,
+        setMood,
         mode,
         setMode,
         flickerSpeed,
+        warmth,
+        setWarmth,
         setFlickerSpeed,
       }}
     >
