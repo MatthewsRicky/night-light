@@ -1,9 +1,17 @@
+import type { Mood } from "@/context/LightingContext";
 import { useLighting } from "@/context/LightingContext";
 import { useRouter } from "expo-router";
 import React from "react";
-import { FlatList, StyleSheet, Text, TouchableOpacity } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TextStyle,
+  TouchableOpacity,
+  ViewStyle,
+} from "react-native";
 
-const moods = [
+const moods: { key: Mood; color: string; label: string }[] = [
   { key: "warm", color: "#ff9933", label: "Warm" },
   { key: "cool", color: "#3366ff", label: "Cool" },
   { key: "green", color: "#00cc66", label: "Green" },
@@ -16,10 +24,10 @@ export default function MoodSelector() {
   const { setMode, setMood } = useLighting();
   const router = useRouter();
 
-  const handleSelect = (moodKey: string) => {
-    setMood(moodKey as any);
+  const handleSelect = (mood: Mood) => {
+    setMood(mood);
     setMode("flicker");
-    router.push("/flicker" as const);
+    router.push("/flicker");
   };
 
   return (
@@ -27,6 +35,7 @@ export default function MoodSelector() {
       contentContainerStyle={styles.grid}
       data={moods}
       numColumns={2}
+      keyExtractor={(item) => item.key}
       renderItem={({ item }) => (
         <TouchableOpacity
           style={[styles.card, { backgroundColor: item.color }]}
@@ -39,7 +48,11 @@ export default function MoodSelector() {
   );
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create<{
+  grid: ViewStyle;
+  card: ViewStyle;
+  label: TextStyle;
+}>({
   grid: {
     padding: 16,
     gap: 12,
