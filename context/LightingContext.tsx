@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
 
-type Mood = "warm" | "cool" | "green" | "purple" | "pink" | "yellow";
+export type Mood = "warm" | "cool" | "green" | "purple" | "pink" | "yellow";
 
 interface LightingContextProps {
   mode: "flicker" | "ambient";
