@@ -1,4 +1,4 @@
-import ColorPicker from "@/components/ColorPicker";
+//import ColorPicker from "@/components/ColorPicker";
 import { useNavigation } from "expo-router";
 import * as ScreenOrientation from "expo-screen-orientation";
 import { StatusBar } from "expo-status-bar";
@@ -43,7 +43,7 @@ export default function HomeScreen() {
         </TouchableWithoutFeedback>
       ) : (
         <View className="flex-1 justify-around items-center">
-          <ColorPicker value={warmth} onChange={setWarmth} />
+          {/* <ColorPicker value={warmth} onChange={setWarmth} /> */}
           <Pressable
             onPress={handleStart}
             className="bg-emerald-400/10 shadow-slate-100 px-6 py-3 rounded-xl"
