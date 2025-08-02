@@ -1,8 +1,8 @@
 import { Mood } from "../context/LightingContext";
 
 
-export function getMoodColors(family: Mood): [string, string] {
-  switch (family) {
+export function getMoodColors(mood: Mood): [string, string] {
+  switch (mood) {
     case "cool":
       return ["#cceeff", "#3366ff"];
     case "green":
