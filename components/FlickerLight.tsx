@@ -8,15 +8,17 @@ import Animated, {
   withRepeat,
   withTiming,
 } from "react-native-reanimated";
-import { useLighting } from "../context/LightingContext";
+
+import { useLighting } from "@/context/LightingContext";
+import { getMoodColors } from "@/utils/moodColors";
 
 const { width, height } = Dimensions.get("window");
 
 export default function FlickerLight() {
-  const { warmth, mode, flickerSpeed } = useLighting();
+  const { warmth, mode, flickerSpeed, mood } = useLighting();
 
-  console.log(warmth);
   const flicker = useSharedValue(0);
+  const [coolColor, warmColor] = getMoodColors(mood ?? "warm");
 
   useEffect(() => {
     if (mode === "flicker") {
@@ -32,16 +34,12 @@ export default function FlickerLight() {
   }, [mode, flickerSpeed]);
 
   const animatedStyle = useAnimatedStyle(() => {
-    const baseColor = interpolateColor(
-      warmth,
-      [0, 1],
-      ["#ffecc7", "#ff9933"] // cool → warm
-    );
+    const baseColor = interpolateColor(warmth, [0, 1], [coolColor, warmColor]);
 
     const flickerColor =
       mode === "ambient"
         ? baseColor
-        : interpolateColor(flicker.value, [0, 1], [baseColor, "#ffbb73"]);
+        : interpolateColor(flicker.value, [0, 1], [coolColor, warmColor]);
 
     return {
       width,
@@ -50,5 +48,5 @@ export default function FlickerLight() {
     };
   });
 
-  return <Animated.View className="flex-1" style={animatedStyle} />;
+  return <Animated.View style={animatedStyle} />;
 }
