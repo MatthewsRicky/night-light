@@ -18,7 +18,6 @@ export default function FlickerLight() {
   const { warmth, mode, flickerSpeed, mood } = useLighting();
 
   const flicker = useSharedValue(0);
-  const [coolColor, warmColor] = getMoodColors(mood ?? "warm");
 
   useEffect(() => {
     if (mode === "flicker") {
@@ -34,6 +33,7 @@ export default function FlickerLight() {
   }, [mode, flickerSpeed]);
 
   const animatedStyle = useAnimatedStyle(() => {
+    const [coolColor, warmColor] = getMoodColors(mood ?? "warm");
     const baseColor = interpolateColor(warmth, [0, 1], [coolColor, warmColor]);
 
     const flickerColor =
@@ -46,7 +46,7 @@ export default function FlickerLight() {
       height,
       backgroundColor: flickerColor,
     };
-  });
+  }, [warmth, mode, mood]);
 
   return <Animated.View style={animatedStyle} />;
 }
