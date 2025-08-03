@@ -1,6 +1,5 @@
 import { Mood } from "../context/LightingContext";
 
-
 export function getMoodColors(mood: Mood): [string, string] {
   switch (mood) {
     case "cool":
