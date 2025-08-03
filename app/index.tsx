@@ -1,11 +1,30 @@
 //import ColorPicker from "@/components/ColorPicker";
+import WarmthSlider from "@/components/WarmthSlider";
 import { useNavigation } from "expo-router";
 import * as ScreenOrientation from "expo-screen-orientation";
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
-import { Pressable, Text, TouchableWithoutFeedback, View } from "react-native";
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import FlickerLight from "../components/FlickerLight";
 import "./globals.css";
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  sliderOverlay: {
+    position: "absolute",
+    bottom: 20,
+    width: "100%",
+    backgroundColor: "rgba(0,0,0,0.4)",
+  },
+});
 
 export default function HomeScreen() {
   const [started, setStarted] = useState(false);
@@ -37,8 +56,14 @@ export default function HomeScreen() {
 
       {started ? (
         <TouchableWithoutFeedback onPress={handleStop}>
-          <View className="flex-1">
+          <View
+            style={styles.container}
+            className="flex-1 justify-center items-center"
+          >
             <FlickerLight />
+            <View style={styles.sliderOverlay}>
+              <WarmthSlider />
+            </View>
           </View>
         </TouchableWithoutFeedback>
       ) : (
