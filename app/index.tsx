@@ -1,4 +1,6 @@
 //import ColorPicker from "@/components/ColorPicker";
+import FadeOutTimer from "@/components/FadeoutTimer";
+import ModeToggle from "@/components/ModeToggle";
 import WarmthSlider from "@/components/WarmthSlider";
 import { useNavigation } from "expo-router";
 import * as ScreenOrientation from "expo-screen-orientation";
@@ -17,6 +19,8 @@ import "./globals.css";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   sliderOverlay: {
     position: "absolute",
@@ -61,8 +65,11 @@ export default function HomeScreen() {
             className="flex-1 justify-center items-center"
           >
             <FlickerLight />
-            <View style={styles.sliderOverlay}>
+
+            <View style={{ position: "absolute", top: "auto", width: "100%" }}>
+              <FadeOutTimer />
               <WarmthSlider />
+              <ModeToggle />
             </View>
           </View>
         </TouchableWithoutFeedback>
