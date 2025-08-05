@@ -4,11 +4,10 @@ import { useRouter } from "expo-router";
 import React from "react";
 import {
   FlatList,
-  StyleSheet,
+  SafeAreaView,
   Text,
-  TextStyle,
   TouchableOpacity,
-  ViewStyle,
+  View,
 } from "react-native";
 
 const moods: { key: Mood; color: string; label: string }[] = [
@@ -21,55 +20,40 @@ const moods: { key: Mood; color: string; label: string }[] = [
 ];
 
 export default function MoodSelector() {
-  const { setMode, setMood } = useLighting();
+  const { mode, setMode, setMood } = useLighting();
   const router = useRouter();
 
   const handleSelect = (mood: Mood) => {
     setMood(mood);
-    setMode("flicker");
-    router.push("/flicker");
+    // Launch animation immediately after mood selection by navigating with param
+    router.push({ pathname: "/", params: { autoStart: "true" } });
   };
 
   return (
-    <FlatList
-      contentContainerStyle={styles.grid}
-      data={moods}
-      numColumns={2}
-      keyExtractor={(item) => item.key}
-      renderItem={({ item }) => (
-        <TouchableOpacity
-          style={[styles.card, { backgroundColor: item.color }]}
-          onPress={() => handleSelect(item.key)}
-        >
-          <Text style={styles.label}>{item.label}</Text>
-        </TouchableOpacity>
-      )}
-    />
+    <SafeAreaView className="flex-1 bg-gray-100">
+      <FlatList
+        className="flex-1 pt-4 pb-4"
+        contentContainerStyle={{
+          padding: 16,
+          gap: 12,
+          justifyContent: "center",
+        }}
+        data={moods}
+        numColumns={2}
+        keyExtractor={(item) => item.key}
+        renderItem={({ item }) => (
+          <View className="flex-1 m-2">
+            <TouchableOpacity
+              className="flex-1 h-36 rounded-xl justify-center items-center shadow-md"
+              style={{ backgroundColor: item.color }}
+              onPress={() => handleSelect(item.key)}
+              activeOpacity={0.85}
+            >
+              <Text className="text-white font-bold text-lg">{item.label}</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      />
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create<{
-  grid: ViewStyle;
-  card: ViewStyle;
-  label: TextStyle;
-}>({
-  grid: {
-    padding: 16,
-    gap: 12,
-    justifyContent: "center",
-  },
-  card: {
-    flex: 1,
-    height: 120,
-    margin: 8,
-    borderRadius: 12,
-    justifyContent: "center",
-    alignItems: "center",
-    elevation: 4,
-  },
-  label: {
-    fontSize: 16,
-    color: "white",
-    fontWeight: "bold",
-  },
-});
