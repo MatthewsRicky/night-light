@@ -15,33 +15,39 @@ import Animated, {
 const { width, height } = Dimensions.get("window");
 
 export default function FlickerLight() {
-  const { warmth, mode, flickerSpeed, mood } = useLighting();
+  const { warmth, mode, mood } = useLighting();
 
   const flicker = useSharedValue(0);
   const warmthShared = useSharedValue(warmth);
 
-  const [coolColor, warmColor] = useMemo(() => getMoodColors(mood ?? "warm"), [mood]);
+  const [coolColor, warmColor] = useMemo(
+    () => getMoodColors(mood ?? "warm"),
+    [mood]
+  );
 
-  // Update shared warmth value when context warmth changes
+  // Sync warmth to shared value
   useEffect(() => {
     warmthShared.value = warmth;
   }, [warmth]);
 
   // Animate flicker
   useEffect(() => {
-    if (mode === "flicker") {
-      const animate = () => {
-        const nextValue = Math.random(); // target flicker intensity
-        const duration = Math.random() * 200 + 100; // 100–300ms
+    let isMounted = true;
+    let animate: () => void;
 
+    if (mode === "flicker") {
+      animate = () => {
+        if (!isMounted) return;
+        const nextValue = Math.random();
+        const duration = Math.random() * 200 + 100;
         flicker.value = withTiming(
           nextValue,
           {
             duration,
-            easing: Easing.bezier(0.42, 0, 0.58, 1), // smooth ease
+            easing: Easing.bezier(0.42, 0, 0.58, 1),
           },
           (finished) => {
-            if (finished) runOnJS(animate)(); // loop
+            if (finished && isMounted) runOnJS(animate)();
           }
         );
       };
@@ -50,6 +56,11 @@ export default function FlickerLight() {
       cancelAnimation(flicker);
       flicker.value = withTiming(1);
     }
+
+    return () => {
+      isMounted = false;
+      cancelAnimation(flicker);
+    };
   }, [mode]);
 
   const animatedStyle = useAnimatedStyle(() => {
@@ -69,7 +80,7 @@ export default function FlickerLight() {
       height,
       backgroundColor: flickerColor,
     };
-  });
+  }, [mode, coolColor, warmColor]);
 
   return <Animated.View style={animatedStyle} />;
 }
