@@ -2,39 +2,23 @@
 import FadeOutTimer from "@/components/FadeoutTimer";
 import ModeToggle from "@/components/ModeToggle";
 import WarmthSlider from "@/components/WarmthSlider";
-import { useNavigation } from "expo-router";
+import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import * as ScreenOrientation from "expo-screen-orientation";
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
-import {
-  Pressable,
-  StyleSheet,
-  Text,
-  TouchableWithoutFeedback,
-  View,
-} from "react-native";
+import { Pressable, Text, TouchableWithoutFeedback, View } from "react-native";
 import FlickerLight from "../components/FlickerLight";
 import "./globals.css";
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  sliderOverlay: {
-    position: "absolute",
-    bottom: 20,
-    width: "100%",
-    backgroundColor: "rgba(0,0,0,0.4)",
-  },
-});
 
 export default function HomeScreen() {
   const [started, setStarted] = useState(false);
   const [warmth, setWarmth] = useState(0.5);
 
+  const params = useLocalSearchParams();
+
   const navigation = useNavigation();
+
+  const router = useRouter();
 
   const handleStart = async () => {
     await ScreenOrientation.lockAsync(
@@ -49,6 +33,13 @@ export default function HomeScreen() {
   };
 
   useEffect(() => {
+    if (params.autoStart === "true") {
+      handleStart();
+      router.setParams({ autoStart: undefined });
+    }
+  }, [params.autoStart]);
+
+  useEffect(() => {
     navigation.setOptions({
       headerShown: !started,
       tabBarStyle: { display: started ? "none" : "flex" },
@@ -60,17 +51,8 @@ export default function HomeScreen() {
 
       {started ? (
         <TouchableWithoutFeedback onPress={handleStop}>
-          <View
-            style={styles.container}
-            className="flex-1 justify-center items-center"
-          >
+          <View className="flex-1 justify-center items-center">
             <FlickerLight />
-
-            <View style={{ position: "absolute", top: "auto", width: "100%" }}>
-              <FadeOutTimer />
-              <WarmthSlider />
-              <ModeToggle />
-            </View>
           </View>
         </TouchableWithoutFeedback>
       ) : (
@@ -82,6 +64,11 @@ export default function HomeScreen() {
           >
             <Text className="text-black font-semibold text-xl p-2">Start</Text>
           </Pressable>
+          <View className="flex absolute bottom-6 w-full">
+            <FadeOutTimer />
+            <WarmthSlider />
+            <ModeToggle />
+          </View>
         </View>
       )}
     </View>
