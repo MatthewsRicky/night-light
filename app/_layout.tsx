@@ -9,7 +9,7 @@ export default function Layout() {
       <Tabs
         screenOptions={{
           headerShown: false,
-          tabBarActiveTintColor: "#ff9933",
+          tabBarActiveTintColor: "#f59e0b", // amber-400
           tabBarInactiveTintColor: "gray",
         }}
       >
@@ -21,6 +21,7 @@ export default function Layout() {
               <Ionicons name="sunny-outline" size={size} color={color} />
             ),
           }}
+          
         />
         <Tabs.Screen
           name="mood"
