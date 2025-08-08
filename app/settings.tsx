@@ -2,10 +2,11 @@ import FadeOutTimer from "@/components/FadeoutTimer";
 import ModeToggle from "@/components/ModeToggle";
 import WarmthSlider from "@/components/WarmthSlider";
 import { Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function SettingsScreen() {
   return (
-    <View className="flex-1 bg-white dark:bg-black p-4">
+    <SafeAreaView className="flex-1 bg-blue-300/40 p-4">
       <Text className="text-xl font-semibold mb-4 text-black dark:text-white">
         Settings
       </Text>
@@ -30,6 +31,6 @@ export default function SettingsScreen() {
         </Text>
         <ModeToggle />
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
