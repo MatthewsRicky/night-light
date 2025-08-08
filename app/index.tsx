@@ -1,7 +1,5 @@
 //import ColorPicker from "@/components/ColorPicker";
-import FadeOutTimer from "@/components/FadeoutTimer";
 import ModeToggle from "@/components/ModeToggle";
-import WarmthSlider from "@/components/WarmthSlider";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import * as ScreenOrientation from "expo-screen-orientation";
 import { StatusBar } from "expo-status-bar";
@@ -12,7 +10,6 @@ import "./globals.css";
 
 export default function HomeScreen() {
   const [started, setStarted] = useState(false);
-  const [warmth, setWarmth] = useState(0.5);
 
   const params = useLocalSearchParams();
 
@@ -47,7 +44,7 @@ export default function HomeScreen() {
   }, [started]);
   return (
     <View className="flex-1 bg-blue-300/40">
-      <StatusBar hidden={started} style="light" />
+      <StatusBar hidden={started} style="dark" />
 
       {started ? (
         <TouchableWithoutFeedback onPress={handleStop}>
@@ -56,7 +53,7 @@ export default function HomeScreen() {
           </View>
         </TouchableWithoutFeedback>
       ) : (
-        <View className="flex-1 justify-around items-center">
+        <View className="flex-1 justify-around items-center bg-blue-300/40">
           {/* <ColorPicker value={warmth} onChange={setWarmth} /> */}
           <Pressable
             onPress={handleStart}
@@ -64,9 +61,7 @@ export default function HomeScreen() {
           >
             <Text className="text-black font-semibold text-xl p-2">Start</Text>
           </Pressable>
-          <View className="flex absolute bottom-6 w-full">
-            <FadeOutTimer />
-            <WarmthSlider />
+          <View className="fle-[0.4] items-center justify-center">
             <ModeToggle />
           </View>
         </View>
