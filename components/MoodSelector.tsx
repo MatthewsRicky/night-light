@@ -9,6 +9,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import ModeToggle from "./ModeToggle";
+import WarmthSlider from "./WarmthSlider";
 
 const moods: { key: Mood; color: string; label: string }[] = [
   { key: "warm", color: "#ff9933", label: "Warm" },
@@ -30,7 +32,7 @@ export default function MoodSelector() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-100">
+    <SafeAreaView className="flex-1 bg-blue-300/40 rounded-2xl p-4 shadow-slate-950 shadow-xl">
       <FlatList
         className="flex-1 pt-4 pb-4"
         contentContainerStyle={{
@@ -54,6 +56,12 @@ export default function MoodSelector() {
           </View>
         )}
       />
+      <View className="flex-[0.2] items-center justify-center">
+        <ModeToggle />
+      </View>
+      <View className="flex[0.2] justify-center">
+        <WarmthSlider />
+      </View>
     </SafeAreaView>
   );
 }
