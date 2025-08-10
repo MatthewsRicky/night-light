@@ -1,6 +1,5 @@
 import { useLighting } from "@/context/LightingContext";
-import { getMoodColors } from "@/utils/moodColors";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import { Dimensions } from "react-native";
 import Animated, {
   cancelAnimation,
@@ -12,25 +11,26 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
-const { width, height } = Dimensions.get("window");
-
 export default function FlickerLight() {
-  const { warmth, mode, mood } = useLighting();
+  const { warmth, mode, moodColors, flickerSpeed } = useLighting();
 
   const flicker = useSharedValue(0);
   const warmthShared = useSharedValue(warmth);
 
-  const [coolColor, warmColor] = useMemo(
-    () => getMoodColors(mood ?? "warm"),
-    [mood]
-  );
+  const [dimensions, setDimensions] = useState(Dimensions.get("window"));
+  useEffect(() => {
+    const sub = Dimensions.addEventListener("change", ({ window }) => {
+      setDimensions(window);
+    });
+    return () => sub?.remove();
+  }, []);
 
-  // Sync warmth to shared value
+  // Sync warmth changes to shared value
   useEffect(() => {
     warmthShared.value = warmth;
   }, [warmth]);
 
-  // Animate flicker
+  // Flicker / ambient animation
   useEffect(() => {
     let isMounted = true;
     let animate: () => void;
@@ -39,13 +39,10 @@ export default function FlickerLight() {
       animate = () => {
         if (!isMounted) return;
         const nextValue = Math.random();
-        const duration = Math.random() * 200 + 100;
+        const duration = Math.random() * flickerSpeed + flickerSpeed / 2;
         flicker.value = withTiming(
           nextValue,
-          {
-            duration,
-            easing: Easing.bezier(0.42, 0, 0.58, 1),
-          },
+          { duration, easing: Easing.bezier(0.42, 0, 0.58, 1) },
           (finished) => {
             if (finished && isMounted) runOnJS(animate)();
           }
@@ -54,14 +51,16 @@ export default function FlickerLight() {
       animate();
     } else {
       cancelAnimation(flicker);
-      flicker.value = withTiming(1);
+      flicker.value = withTiming(1, { duration: 500 });
     }
 
     return () => {
       isMounted = false;
       cancelAnimation(flicker);
     };
-  }, [mode]);
+  }, [mode, flickerSpeed]);
+
+  const [coolColor, warmColor] = moodColors;
 
   const animatedStyle = useAnimatedStyle(() => {
     const baseColor = interpolateColor(
@@ -76,11 +75,11 @@ export default function FlickerLight() {
         : interpolateColor(flicker.value, [0, 1], [coolColor, warmColor]);
 
     return {
-      width,
-      height,
+      width: dimensions.width,
+      height: dimensions.height,
       backgroundColor: flickerColor,
     };
-  }, [mode, coolColor, warmColor]);
+  }, [mode, coolColor, warmColor, dimensions]);
 
   return <Animated.View style={animatedStyle} />;
 }
