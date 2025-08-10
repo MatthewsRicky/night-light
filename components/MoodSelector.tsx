@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import ModeToggle from "./ModeToggle";
 import WarmthSlider from "./WarmthSlider";
+import { getContrastingColor } from "@/utils/colorUtils";
 
 const moods: { key: Mood; color: string; label: string }[] = [
   { key: "warm", color: "#ff9933", label: "Warm" },
@@ -22,12 +23,11 @@ const moods: { key: Mood; color: string; label: string }[] = [
 ];
 
 export default function MoodSelector() {
-  const { mode, setMode, setMood } = useLighting();
+  const { setMood } = useLighting();
   const router = useRouter();
 
   const handleSelect = (mood: Mood) => {
     setMood(mood);
-    // Launch animation immediately after mood selection by navigating with param
     router.push({ pathname: "/", params: { autoStart: "true" } });
   };
 
@@ -43,18 +43,47 @@ export default function MoodSelector() {
         data={moods}
         numColumns={2}
         keyExtractor={(item) => item.key}
-        renderItem={({ item }) => (
-          <View className="flex-1 m-2">
-            <TouchableOpacity
-              className="flex-1 h-36 rounded-xl justify-center items-center shadow-md"
-              style={{ backgroundColor: item.color }}
-              onPress={() => handleSelect(item.key)}
-              activeOpacity={0.85}
-            >
-              <Text className="text-white font-bold text-lg">{item.label}</Text>
-            </TouchableOpacity>
-          </View>
-        )}
+        renderItem={({ item }) => {
+          const textColor = getContrastingColor(item.color);
+          const glassBg =
+            textColor === "#000000"
+              ? "rgba(255,255,255,0.4)"
+              : "rgba(255,255,255,0.15)";
+
+          return (
+            <View className="flex-1 m-2">
+              <TouchableOpacity
+                className="flex-1 h-36 rounded-xl justify-center items-center shadow-md"
+                style={{
+                  backgroundColor: item.color,
+                  borderWidth: 1,
+                  borderColor: glassBg,
+                }}
+                onPress={() => handleSelect(item.key)}
+                activeOpacity={0.85}
+              >
+                <View
+                  style={{
+                    backgroundColor: glassBg,
+                    borderRadius: 12,
+                    paddingHorizontal: 8,
+                    paddingVertical: 4,
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: textColor,
+                      fontWeight: "bold",
+                      fontSize: 18,
+                    }}
+                  >
+                    {item.label}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          );
+        }}
       />
       <View className="flex-[0.2] items-center justify-center">
         <ModeToggle />
