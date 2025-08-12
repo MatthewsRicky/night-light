@@ -3,7 +3,7 @@ import Slider from "@react-native-community/slider";
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "expo-router";
 import React, { useEffect } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, SafeAreaView, Text, View } from "react-native";
 
 export default function SettingsScreen() {
   const {
@@ -28,7 +28,7 @@ export default function SettingsScreen() {
   }, [mode]);
 
   return (
-    <View className="flex-1 p-4 bg-white">
+    <SafeAreaView className="flex-1 p-4 bg-white">
       <Text className="text-lg font-semibold mb-2">Lighting Mode</Text>
       <Picker
         selectedValue={mode}
@@ -79,6 +79,6 @@ export default function SettingsScreen() {
           Start Fullscreen Flicker
         </Text>
       </Pressable>
-    </View>
+    </SafeAreaView>
   );
 }
