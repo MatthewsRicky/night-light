@@ -1,12 +1,10 @@
 import FlickerLight from "@/components/FlickerLight";
 import ModeToggle from "@/components/ModeToggle";
-import WarmthSlider from "@/components/WarmthSlider";
 import { useLighting } from "@/context/LightingContext";
-import { getContrastingColor } from "@/utils/colorUtils";
 import { getMoodColors } from "@/utils/moodColors";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
+import { useNavigation } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
   Dimensions,
@@ -27,29 +25,12 @@ import Animated, {
 const { width, height } = Dimensions.get("window");
 
 export default function StartScreen() {
-  const navigation = useNavigation();
-
   const { mood } = useLighting();
+  const navigation = useNavigation();
   const [started, setStarted] = useState(false);
   const [color1, color2] = getMoodColors(mood);
 
-  // Hide/show tab bar when flicker starts/stops
-  useEffect(() => {
-    navigation.setOptions({
-      tabBarStyle: started
-        ? { display: "none" } // completely hides tab bar
-        : { backgroundColor: "#fff" }, // your default tab style
-    });
-  }, [started, navigation]);
-
-  // Contrast-aware colors
-  const textColor = getContrastingColor(color2);
-  const glassBg =
-    textColor === "#000000"
-      ? "rgba(255,255,255,0.4)"
-      : "rgba(255,255,255,0.15)";
-
-  // Breathing animation for Start button
+  // Animate the start button breathing
   const scale = useSharedValue(1);
   useEffect(() => {
     scale.value = withRepeat(
@@ -63,13 +44,14 @@ export default function StartScreen() {
     transform: [{ scale: scale.value }],
   }));
 
-  // Fade animation for flicker transition
+  // Flicker fade animation
   const opacity = useSharedValue(0);
   const flickerStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,
   }));
 
   const startFlicker = () => {
+    navigation.setOptions({ tabBarStyle: { display: "none" } });
     setStarted(true);
     opacity.value = withTiming(1, { duration: 500 });
   };
@@ -77,7 +59,10 @@ export default function StartScreen() {
   const stopFlicker = () => {
     opacity.value = withTiming(0, { duration: 500 }, (finished) => {
       if (finished) {
-        runOnJS(setStarted)(false);
+        runOnJS(() => {
+          setStarted(false);
+          navigation.setOptions({ tabBarStyle: { display: "flex" } });
+        })();
       }
     });
   };
@@ -92,22 +77,31 @@ export default function StartScreen() {
         </Pressable>
       ) : (
         <LinearGradient
-          colors={[color1, color2]}
+          colors={[
+            `${color1}B3`, // pastelized outer
+            `${color1}80`, // medium
+            `${color2}4D`, // lighter near center
+          ]}
           style={{ flex: 1, width, height }}
         >
           <Animated.View
-            className="flex-1 justify-center items-center"
+            className="flex-1 justify-center items-center shadow-xl shadow-black/70"
             style={buttonStyle}
           >
-            {/* Glowing background halo */}
-            <View
-              className="absolute w-48 h-48 rounded-full blur-3xl"
-              style={{ backgroundColor: glassBg }}
-            />
+            {/* Concentric 3D circles */}
+            {/* <View className="absolute items-center justify-center">
+              Outer circle 
+              <View className="w-72 h-72 rounded-full  shadow-lg shadow-black/30" />
 
-            {/* Gradient ring */}
+               Mid circle 
+              <View className="absolute w-60 h-60 rounded-full bg-white/20 shadow-md shadow-black/40" />
+              {/* Inner circle 
+              <View className="absolute w-48 h-48 rounded-full bg-white/30 shadow-md shadow-black/50" />
+            </View> */}
+
+            {/* Gradient Ring */}
             <LinearGradient
-              colors={["#ffffffaa", "#ffffff22"]}
+              colors={["#ffffffaa", "#ffffff33"]}
               style={{
                 padding: 4,
                 borderRadius: 9999,
@@ -116,16 +110,12 @@ export default function StartScreen() {
               {/* Glassy Start Button */}
               <TouchableOpacity
                 activeOpacity={0.8}
-                className="w-36 h-36 rounded-full border justify-center items-center"
-                style={{
-                  backgroundColor: glassBg,
-                  borderColor: textColor + "55", // semi-transparent border based on text color
-                }}
+                className="w-48 h-48 rounded-full bg-white/25 border border-white/40 justify-center items-center"
                 onPress={startFlicker}
               >
-                <Ionicons name="play" size={42} color={textColor} />
+                <Ionicons name="play" size={42} color={color2} />
                 <Text
-                  style={{ color: textColor }}
+                  style={{ color: color2 }}
                   className="font-bold text-lg mt-1"
                 >
                   Start
@@ -134,12 +124,10 @@ export default function StartScreen() {
             </LinearGradient>
           </Animated.View>
 
-          {/* Controls at the bottom */}
-          <View className="absolute bottom-[25%] w-[90%] self-center items-center space-y-5">
+          {/* Controls */}
+          <View className="absolute bottom-[20%] w-[90%] self-center items-center space-y-5">
             <ModeToggle />
           </View>
-
-          <WarmthSlider />
         </LinearGradient>
       )}
     </View>
