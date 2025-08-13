@@ -88,9 +88,7 @@ export default function MoodSelector() {
       <View className="flex-[0.2] items-center justify-center">
         <ModeToggle />
       </View>
-      <View className="flex[0.2] justify-center">
-        <WarmthSlider />
-      </View>
+    
     </SafeAreaView>
   );
 }
