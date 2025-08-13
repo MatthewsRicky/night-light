@@ -3,7 +3,7 @@ import Slider from "@react-native-community/slider";
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "expo-router";
 import React, { useEffect } from "react";
-import { Pressable, SafeAreaView, Text, View } from "react-native";
+import { Pressable, SafeAreaView, Text } from "react-native";
 
 export default function SettingsScreen() {
   const {
@@ -60,16 +60,6 @@ export default function SettingsScreen() {
         onValueChange={(value: number) => setFlickerSpeed(value)}
       />
       <Text>{flickerSpeed} ms</Text>
-
-      <Text className="text-lg font-semibold mt-4 mb-2">Warmth</Text>
-      <Slider
-        minimumValue={0}
-        maximumValue={1}
-        step={0.01}
-        value={warmth}
-        onValueChange={(value: number) => setWarmth(value)}
-      />
-      <Text>{Math.round(warmth * 100)}%</Text>
 
       <Pressable
         onPress={() => setMode("flicker")}
