@@ -19,11 +19,11 @@ export default function SettingsScreen() {
 
   const navigation = useNavigation();
 
-  // Hide header and tab bar when in flicker mode
+  // Show header and tab bar when in settings
   useEffect(() => {
     navigation.setOptions({
-      headerShown: mode !== "flicker",
-      tabBarStyle: { display: mode === "flicker" ? "none" : "flex" },
+      headerShown: "true",
+      tabBarStyle: { display: "flex" },
     });
   }, [mode]);
 
