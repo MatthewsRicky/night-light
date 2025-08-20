@@ -1,25 +1,18 @@
 import type { Mood } from "@/context/LightingContext";
 import { useLighting } from "@/context/LightingContext";
+import { getContrastingColor } from "@/utils/colorUtils";
 import { useRouter } from "expo-router";
 import React from "react";
-import {
-  FlatList,
-  SafeAreaView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { FlatList, SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 import ModeToggle from "./ModeToggle";
-import WarmthSlider from "./WarmthSlider";
-import { getContrastingColor } from "@/utils/colorUtils";
 
 const moods: { key: Mood; color: string; label: string }[] = [
   { key: "warm", color: "#ff9933", label: "Warm" },
   { key: "cool", color: "#3366ff", label: "Cool" },
-  { key: "green", color: "#00cc66", label: "Green" },
-  { key: "purple", color: "#9933ff", label: "Purple" },
-  { key: "pink", color: "#ff69b4", label: "Pink" },
-  { key: "yellow", color: "#ffcc00", label: "Yellow" },
+  { key: "green", color: "#00cc66", label: "Nature" },
+  { key: "purple", color: "#9933ff", label: "Twilight" },
+  { key: "pink", color: "#ff69b4", label: "Pleasure" },
+  { key: "yellow", color: "#ffcc00", label: "Elation" },
 ];
 
 export default function MoodSelector() {
@@ -32,7 +25,7 @@ export default function MoodSelector() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-blue-300/40 rounded-2xl p-4 shadow-slate-950 shadow-xl">
+    <SafeAreaView className="flex-[0.88] bg-blue-300/40 rounded-2xl p-4 shadow-slate-950 shadow-xl">
       <FlatList
         className="flex-1 pt-4 pb-4"
         contentContainerStyle={{
@@ -51,7 +44,7 @@ export default function MoodSelector() {
               : "rgba(255,255,255,0.15)";
 
           return (
-            <View className="flex-1 m-2">
+            <View className="flex-1 m-2 rounded-xl">
               <TouchableOpacity
                 className="flex-1 h-36 rounded-xl justify-center items-center shadow-md"
                 style={{
@@ -85,10 +78,9 @@ export default function MoodSelector() {
           );
         }}
       />
-      <View className="flex-[0.2] items-center justify-center">
+      <View className="flex-[0.1] items-start justify-start">
         <ModeToggle />
       </View>
-    
     </SafeAreaView>
   );
 }
