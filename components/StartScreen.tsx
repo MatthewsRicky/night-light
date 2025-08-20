@@ -1,10 +1,10 @@
 import FlickerLight from "@/components/FlickerLight";
 import ModeToggle from "@/components/ModeToggle";
 import { useLighting } from "@/context/LightingContext";
+import { useUI } from "@/context/UIContext";
 import { getMoodColors } from "@/utils/moodColors";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { useNavigation } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
   Dimensions,
@@ -21,14 +21,20 @@ import Animated, {
   withRepeat,
   withTiming,
 } from "react-native-reanimated";
+import Svg, { Circle, Defs, RadialGradient, Stop } from "react-native-svg";
 
 const { width, height } = Dimensions.get("window");
 
 export default function StartScreen() {
   const { mood } = useLighting();
-  const navigation = useNavigation();
+  const { showTabBar, hideTabBar } = useUI();
   const [started, setStarted] = useState(false);
   const [color1, color2] = getMoodColors(mood);
+
+  const handleStopFlicker = () => {
+    setStarted(false); // Reset started state
+    showTabBar(); // Show the tab bar again
+  };
 
   // Animate the start button breathing
   const scale = useSharedValue(1);
@@ -51,18 +57,15 @@ export default function StartScreen() {
   }));
 
   const startFlicker = () => {
-    navigation.setOptions({ tabBarStyle: { display: "none" } });
     setStarted(true);
+    hideTabBar(); // hide tabs when flickering starts
     opacity.value = withTiming(1, { duration: 500 });
   };
 
   const stopFlicker = () => {
     opacity.value = withTiming(0, { duration: 500 }, (finished) => {
       if (finished) {
-        runOnJS(() => {
-          setStarted(false);
-          navigation.setOptions({ tabBarStyle: { display: "flex" } });
-        })();
+        runOnJS(handleStopFlicker)();
       }
     });
   };
@@ -77,46 +80,75 @@ export default function StartScreen() {
         </Pressable>
       ) : (
         <LinearGradient
-          colors={[
-            `${color1}B3`, // pastelized outer
-            `${color1}80`, // medium
-            `${color2}4D`, // lighter near center
-          ]}
+          colors={[`${color1}B3`, `${color1}80`, `${color2}4D`]}
           style={{ flex: 1, width, height }}
         >
           <Animated.View
-            className="flex-1 justify-center items-center shadow-xl shadow-black/70"
+            className="flex-1 justify-center items-center"
             style={buttonStyle}
           >
-            {/* Concentric 3D circles */}
-            {/* <View className="absolute items-center justify-center">
-              Outer circle 
-              <View className="w-72 h-72 rounded-full  shadow-lg shadow-black/30" />
-
-               Mid circle 
-              <View className="absolute w-60 h-60 rounded-full bg-white/20 shadow-md shadow-black/40" />
-              {/* Inner circle 
-              <View className="absolute w-48 h-48 rounded-full bg-white/30 shadow-md shadow-black/50" />
-            </View> */}
-
-            {/* Gradient Ring */}
-            <LinearGradient
-              colors={["#ffffffaa", "#ffffff33"]}
-              style={{
-                padding: 4,
-                borderRadius: 9999,
-              }}
+            {/* Concentric circles */}
+            <Svg
+              height="350"
+              width="350"
+              className="absolute items-center justify-center"
             >
-              {/* Glassy Start Button */}
+              <Defs>
+                <RadialGradient id="grad" cx="50%" cy="50%" r="50%">
+                  <Stop offset="0%" stopColor="#ffffff" stopOpacity="0.25" />
+                  <Stop offset="100%" stopColor="#000000" stopOpacity="0.05" />
+                </RadialGradient>
+              </Defs>
+
+              <Circle
+                cx="175"
+                cy="175"
+                r="175"
+                fill={color2 + "20"}
+                stroke="url(#grad)"
+                strokeWidth={0.4}
+              />
+              <Circle
+                cx="175"
+                cy="175"
+                r="155"
+                fill={color2 + "20"}
+                stroke="url(#grad)"
+                strokeWidth={0.4}
+              />
+              <Circle
+                cx="175"
+                cy="175"
+                r="133"
+                fill={color2 + "23"}
+                stroke="url(#grad)"
+                strokeWidth={0.3}
+              />
+              <Circle
+                cx="175"
+                cy="175"
+                r="110"
+                fill={color2 + "26"}
+                stroke="url(#grad)"
+                strokeWidth={0.2}
+              />
+            </Svg>
+
+            {/* Start Button */}
+            <LinearGradient
+              colors={[`${color1}80`, `${color1}80`]}
+              className="p-1 absolute rounded-full"
+              style={{ borderRadius: 100 }}
+            >
               <TouchableOpacity
                 activeOpacity={0.8}
-                className="w-48 h-48 rounded-full bg-white/25 border border-white/40 justify-center items-center"
+                className="w-48 h-48 rounded-full bg-white/25 border border-white/40 justify-center self-center items-center"
                 onPress={startFlicker}
               >
-                <Ionicons name="play" size={42} color={color2} />
+                <Ionicons name="play" size={60} color={color2} />
                 <Text
                   style={{ color: color2 }}
-                  className="font-bold text-lg mt-1"
+                  className="font-extrabold text-xl text-center mt-1"
                 >
                   Start
                 </Text>
@@ -125,7 +157,7 @@ export default function StartScreen() {
           </Animated.View>
 
           {/* Controls */}
-          <View className="absolute bottom-[20%] w-[90%] self-center items-center space-y-5">
+          <View className="absolute bottom-[15%] w-[90%] self-center items-center space-y-5">
             <ModeToggle />
           </View>
         </LinearGradient>
