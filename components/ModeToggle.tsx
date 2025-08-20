@@ -20,7 +20,7 @@ export default function ModeToggle() {
         shadowOffset: { width: 0, height: 2 },
       }}
     >
-      {["ambient", "flicker"].map((m) => (
+      {(["ambient", "flicker"] as const).map((m) => (
         <TouchableOpacity
           key={m}
           className={`py-2 px-5 rounded-2xl m-1`}
