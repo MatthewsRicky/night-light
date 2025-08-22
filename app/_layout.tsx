@@ -81,9 +81,6 @@ function AppTabs() {
     </Tabs>
   );
 }
-
-
-
 export default function Layout() {
   return (
     <LightingProvider>
