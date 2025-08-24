@@ -3,7 +3,13 @@ import { useLighting } from "@/context/LightingContext";
 import { getContrastingColor } from "@/utils/colorUtils";
 import { useRouter } from "expo-router";
 import React from "react";
-import { FlatList, SafeAreaView, Text, TouchableOpacity, View } from "react-native";
+import {
+  FlatList,
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import ModeToggle from "./ModeToggle";
 
 const moods: { key: Mood; color: string; label: string }[] = [
@@ -11,7 +17,7 @@ const moods: { key: Mood; color: string; label: string }[] = [
   { key: "cool", color: "#3366ff", label: "Cool" },
   { key: "green", color: "#00cc66", label: "Nature" },
   { key: "purple", color: "#9933ff", label: "Twilight" },
-  { key: "pink", color: "#ff69b4", label: "Pleasure" },
+  { key: "pink", color: "#ff69b4", label: "Love" },
   { key: "yellow", color: "#ffcc00", label: "Elation" },
 ];
 
