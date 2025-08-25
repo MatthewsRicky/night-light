@@ -22,6 +22,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import Svg, { Circle, Defs, RadialGradient, Stop } from "react-native-svg";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const { width, height } = Dimensions.get("window");
 
@@ -30,13 +31,14 @@ export default function StartScreen() {
   const { showTabBar, hideTabBar } = useUI();
   const [started, setStarted] = useState(false);
   const [color1, color2] = getMoodColors(mood);
+  const insets = useSafeAreaInsets();
 
   const handleStopFlicker = () => {
-    setStarted(false); // Reset started state
-    showTabBar(); // Show the tab bar again
+    setStarted(false);
+    showTabBar();
   };
 
-  // Animate the start button breathing
+  // Animate button breathing
   const scale = useSharedValue(1);
   useEffect(() => {
     scale.value = withRepeat(
@@ -50,7 +52,7 @@ export default function StartScreen() {
     transform: [{ scale: scale.value }],
   }));
 
-  // Flicker fade animation
+  // Flicker fade
   const opacity = useSharedValue(0);
   const flickerStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,
@@ -58,41 +60,49 @@ export default function StartScreen() {
 
   const startFlicker = () => {
     setStarted(true);
-    hideTabBar(); // hide tabs when flickering starts
+    hideTabBar();
     opacity.value = withTiming(1, { duration: 500 });
   };
 
   const stopFlicker = () => {
     opacity.value = withTiming(0, { duration: 500 }, (finished) => {
-      if (finished) {
-        runOnJS(handleStopFlicker)();
-      }
+      if (finished) runOnJS(handleStopFlicker)();
     });
   };
 
   return (
-    <View className="flex-1">
+    <View style={{ flex: 1 }}>
       {started ? (
-        <Pressable className="absolute inset-0" onPress={stopFlicker}>
-          <Animated.View className="absolute inset-0" style={flickerStyle}>
+        <Pressable
+          style={{
+            flex: 1,
+            backgroundColor: "black",
+            paddingBottom: 0, // 👈 override safe area bottom
+          }}
+          onPress={stopFlicker}
+        >
+          <Animated.View style={[{ flex: 1 }, flickerStyle]}>
             <FlickerLight />
           </Animated.View>
         </Pressable>
       ) : (
         <LinearGradient
           colors={[`${color1}B3`, `${color1}80`, `${color2}4D`]}
-          style={{ flex: 1, width, height }}
+          style={{
+            flex: 1,
+            width,
+            height,
+            paddingBottom: insets.bottom, // 👈 safe inset only outside flicker
+          }}
         >
           <Animated.View
-            className="flex-1 justify-center items-center"
-            style={buttonStyle}
+            style={[
+              { flex: 1, justifyContent: "center", alignItems: "center" },
+              buttonStyle,
+            ]}
           >
             {/* Concentric circles */}
-            <Svg
-              height="350"
-              width="350"
-              className="absolute items-center justify-center"
-            >
+            <Svg height="350" width="350" style={{ position: "absolute" }}>
               <Defs>
                 <RadialGradient id="grad" cx="50%" cy="50%" r="50%">
                   <Stop offset="0%" stopColor="#ffffff" stopOpacity="0.25" />
@@ -134,21 +144,33 @@ export default function StartScreen() {
               />
             </Svg>
 
-            {/* Start Button */}
+            {/* Start button */}
             <LinearGradient
               colors={[`${color1}80`, `${color1}80`]}
-              className="p-1 absolute rounded-full"
-              style={{ borderRadius: 100 }}
+              style={{ padding: 1, borderRadius: 100 }}
             >
               <TouchableOpacity
                 activeOpacity={0.8}
-                className="w-48 h-48 rounded-full bg-white/25 border border-white/40 justify-center self-center items-center"
+                style={{
+                  width: 192,
+                  height: 192,
+                  borderRadius: 96,
+                  backgroundColor: "rgba(255,255,255,0.25)",
+                  borderWidth: 1,
+                  borderColor: "rgba(255,255,255,0.4)",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
                 onPress={startFlicker}
               >
                 <Ionicons name="play" size={60} color={color2} />
                 <Text
-                  style={{ color: color2 }}
-                  className="font-extrabold text-xl text-center mt-1"
+                  style={{
+                    color: color2,
+                    fontWeight: "800",
+                    fontSize: 20,
+                    marginTop: 4,
+                  }}
                 >
                   Start
                 </Text>
@@ -156,8 +178,15 @@ export default function StartScreen() {
             </LinearGradient>
           </Animated.View>
 
-          {/* Controls */}
-          <View className="absolute bottom-[15%] w-[90%] self-center items-center space-y-5">
+          {/* Controls (lifted above BottomNav) */}
+          <View
+            style={{
+              position: "absolute",
+              bottom: 120,
+              width: "100%",
+              alignItems: "center",
+            }}
+          >
             <ModeToggle />
           </View>
         </LinearGradient>
