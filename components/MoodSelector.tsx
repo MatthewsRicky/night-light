@@ -27,15 +27,22 @@ export default function MoodSelector() {
 
   const handleSelect = (mood: Mood) => {
     setMood(mood);
-    router.push({ pathname: "/", params: { autoStart: "true" } });
+    router.push("/"); // go back to home after selecting
   };
 
   return (
-    <SafeAreaView className="flex-[0.88] bg-blue-300/40 rounded-2xl p-4 shadow-slate-950 shadow-xl">
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: "rgba(147,197,253,0.4)", // blue-300/40
+        borderRadius: 20,
+        padding: 16,
+        marginVertical: 8,
+      }}
+    >
       <FlatList
-        className="flex-1 pt-4 pb-4"
         contentContainerStyle={{
-          padding: 16,
+          paddingVertical: 16,
           gap: 12,
           justifyContent: "center",
         }}
@@ -50,10 +57,13 @@ export default function MoodSelector() {
               : "rgba(255,255,255,0.15)";
 
           return (
-            <View className="flex-1 m-2 rounded-xl">
+            <View style={{ flex: 1, margin: 8, borderRadius: 12 }}>
               <TouchableOpacity
-                className="flex-1 h-36 rounded-xl justify-center items-center shadow-md"
                 style={{
+                  height: 140,
+                  borderRadius: 12,
+                  justifyContent: "center",
+                  alignItems: "center",
                   backgroundColor: item.color,
                   borderWidth: 1,
                   borderColor: glassBg,
@@ -84,7 +94,9 @@ export default function MoodSelector() {
           );
         }}
       />
-      <View className="flex-[0.1] items-start justify-start">
+
+      {/* Controls — lifted above nav */}
+      <View style={{ alignItems: "center", marginTop: 12, marginBottom: 80 }}>
         <ModeToggle />
       </View>
     </SafeAreaView>
