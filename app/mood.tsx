@@ -1,12 +1,13 @@
-// app/mood.tsx
+import MoodSelector from "@/components/MoodSelector";
 import React from "react";
-import { SafeAreaView } from "react-native";
-import MoodSelector from "../components/MoodSelector";
+import { SafeAreaView, View } from "react-native";
 
-export default function mood() {
+export default function MoodScreen() {
   return (
-    <SafeAreaView className="flex-1 bg-blue-300/40">
-      <MoodSelector />
+    <SafeAreaView style={{ flex: 1, backgroundColor: "transparent" }}>
+      <View style={{ flex: 1, paddingHorizontal: 8 }}>
+        <MoodSelector />
+      </View>
     </SafeAreaView>
   );
 }
