@@ -1,32 +1,26 @@
-// context/UIContext.tsx
-import React, { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
-type UIContextType = {
+const UIContext = createContext<{
   tabBarVisible: boolean;
-  hideTabBar: () => void;
   showTabBar: () => void;
-};
-
-const UIContext = createContext<UIContextType | undefined>(undefined);
+  hideTabBar: () => void;
+}>({
+  tabBarVisible: true,
+  showTabBar: () => {},
+  hideTabBar: () => {},
+});
 
 export const UIProvider = ({ children }: { children: React.ReactNode }) => {
   const [tabBarVisible, setTabBarVisible] = useState(true);
 
+  const showTabBar = () => setTabBarVisible(true);
+  const hideTabBar = () => setTabBarVisible(false);
+
   return (
-    <UIContext.Provider
-      value={{
-        tabBarVisible,
-        hideTabBar: () => setTabBarVisible(false),
-        showTabBar: () => setTabBarVisible(true),
-      }}
-    >
+    <UIContext.Provider value={{ tabBarVisible, showTabBar, hideTabBar }}>
       {children}
     </UIContext.Provider>
   );
 };
 
-export const useUI = () => {
-  const context = useContext(UIContext);
-  if (!context) throw new Error("useUI must be used within UIProvider");
-  return context;
-};
+export const useUI = () => useContext(UIContext);
