@@ -9,9 +9,13 @@ export default function SettingsScreen() {
     useLighting();
 
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1 ">
       <ScrollView
         contentContainerStyle={{
+          justifyContent: "center",
+          alignItems: "stretch",
+          height: "auto",
+
           paddingHorizontal: 16,
           paddingTop: 16,
           paddingBottom: 120, // leave space above BottomNav
@@ -19,7 +23,7 @@ export default function SettingsScreen() {
       >
         {/* Card */}
         <View
-          className="rounded-2xl border p-4"
+          className="rounded-2xl border justify-center items-center p-4"
           style={{
             backgroundColor: "rgba(255,255,255,0.85)",
             borderColor: "rgba(0,0,0,0.06)",
@@ -28,6 +32,11 @@ export default function SettingsScreen() {
             shadowRadius: 12,
             shadowOffset: { width: 0, height: 6 },
             elevation: 2,
+            padding: 16,
+            marginVertical: 16,
+            justifyContent: "center",
+            alignItems: "center",
+            height: "auto",
           }}
         >
           <Text className="text-lg font-semibold mb-2">Lighting Mode</Text>
