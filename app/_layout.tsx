@@ -1,24 +1,78 @@
-import BottomNav from "@/components/BottomNav";
 import { LightingProvider } from "@/context/LightingContext";
-import { UIProvider } from "@/context/UIContext";
-import { Stack } from "expo-router";
-import { View } from "react-native";
+import { UIProvider, useUI } from "@/context/UIContext";
+import { getContrastingColor } from "@/utils/colorUtils";
+import { getMoodColors } from "@/utils/moodColors";
+import { Ionicons } from "@expo/vector-icons";
+import { Tabs } from "expo-router";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+
+function AppTabs() {
+  const { tabBarVisible } = useUI(); // 👈 state from context
+   const [color1, color2] = getMoodColors(mood);
+    const textColor = getContrastingColor(color1);
+  
+
+  return (
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: {
+          display: tabBarVisible ? "flex" : "none", // 👈 reactive toggle
+          backgroundColor: color1,
+        },
+      }}
+    >
+      <Tabs.Screen
+        name="index"
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="sunny" color={color} size={size} />
+          ),
+          title: "Light",
+          tabBarLabelStyle: { paddingBottom: 10, fontSize: 12 },
+          tabBarActiveTintColor: "gold",
+          tabBarInactiveTintColor: "white",
+        }}
+      />
+      <Tabs.Screen
+        name="mood"
+        options={{
+          headerShown: true,
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="menu" color={color} size={size} />
+          ),
+          title: "Mood",
+          tabBarLabelStyle: { paddingBottom: 10, fontSize: 12 },
+          tabBarActiveTintColor: "gold",
+          tabBarInactiveTintColor: "white",
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          headerShown: true,
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="settings" color={color} size={size} />
+          ),
+          title: "settings",
+          tabBarLabelStyle: { paddingBottom: 10, fontSize: 12 },
+          tabBarActiveTintColor: "gold",
+          tabBarInactiveTintColor: "white",
+        }}
+      />
+    </Tabs>
+  );
+}
 
 export default function Layout() {
   return (
     <SafeAreaProvider>
       <LightingProvider>
         <UIProvider>
-          <View style={{ flex: 1 }}>
-            <Stack
-              screenOptions={{
-                headerShown: false, // keep consistent UI
-              }}
-            />
-            {/* Persistent bottom nav */}
-            <BottomNav />
-          </View>
+          <AppTabs />
+          {/* Your custom nav stays here if needed */}
+          {/* <BottomNav /> */}
         </UIProvider>
       </LightingProvider>
     </SafeAreaProvider>
