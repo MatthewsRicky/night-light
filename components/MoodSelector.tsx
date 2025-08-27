@@ -16,7 +16,7 @@ const moods: { key: Mood; color: string; label: string }[] = [
   { key: "warm", color: "#ff9933", label: "Warm" },
   { key: "cool", color: "#3366ff", label: "Cool" },
   { key: "green", color: "#00cc66", label: "Nature" },
-  { key: "purple", color: "#9933ff", label: "Twilight" },
+  { key: "purple", color: "#9933ff", label: "Royalty" },
   { key: "pink", color: "#ff69b4", label: "Love" },
   { key: "yellow", color: "#ffcc00", label: "Elation" },
 ];
