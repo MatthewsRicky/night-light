@@ -1,13 +1,29 @@
 import { Mood, useLighting } from "@/context/LightingContext";
+import { getMoodColors } from "@/utils/moodColors";
 import Slider from "@react-native-community/slider";
 import { Picker } from "@react-native-picker/picker";
+import { useRouter } from "expo-router";
 import React from "react";
-import { Pressable, SafeAreaView, ScrollView, Text, View } from "react-native";
+import {
+  Pressable,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 export default function SettingsScreen() {
   const { mode, setMode, flickerSpeed, setFlickerSpeed, mood, setMood } =
     useLighting();
 
+  const [color1, color2] = getMoodColors(mood);
+
+  const router = useRouter();
+
+  const handleSelect = () => {
+    router.push("/"); // go back to home after selecting
+  };
   return (
     <SafeAreaView className="flex-1 ">
       <ScrollView
@@ -19,8 +35,13 @@ export default function SettingsScreen() {
       >
         {/* Card */}
         <View
-          className="rounded-2xl border p-4">
-        
+          className="rounded-2xl border flex-1 p-4"
+          style={{
+            borderColor: color2,
+            backgroundColor: color1,
+            boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+          }}
+        >
           <Text className="text-lg font-semibold mb-2">Lighting Mode</Text>
           <View
             className="rounded-xl border mb-4"
@@ -46,10 +67,10 @@ export default function SettingsScreen() {
             >
               <Picker.Item label="Warm" value="warm" />
               <Picker.Item label="Cool" value="cool" />
-              <Picker.Item label="Green" value="green" />
-              <Picker.Item label="Purple" value="purple" />
-              <Picker.Item label="Pink" value="pink" />
-              <Picker.Item label="Yellow" value="yellow" />
+              <Picker.Item label="Nature" value="nature" />
+              <Picker.Item label="Royalty" value="royalty" />
+              <Picker.Item label="Love" value="love" />
+              <Picker.Item label="Elation" value="elation" />
             </Picker>
           </View>
 
@@ -80,9 +101,15 @@ export default function SettingsScreen() {
               elevation: 2,
             }}
           >
-            <Text className="text-white text-center font-semibold">
-              Start Fullscreen Flicker
-            </Text>
+            <TouchableOpacity
+              style={{}}
+              className="text-white text-center font-semibold"
+              onPress={handleSelect}
+            >
+              <Text className="text-center text-white font-bold">
+                Start Fullscreen Flicker
+              </Text>
+            </TouchableOpacity>
           </Pressable>
         </View>
       </ScrollView>
