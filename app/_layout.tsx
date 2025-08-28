@@ -29,7 +29,7 @@ function AppTabs() {
         name="index"
         options={{
           headerShown: false,
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ size }) => (
             <Ionicons name="sunny" color={color1} size={size} />
           ),
           title: "Light",
@@ -42,6 +42,8 @@ function AppTabs() {
         name="mood"
         options={{
           headerShown: true,
+          headerStyle: { backgroundColor: color1, borderBottomColor: color2, borderBottomWidth: 1},
+          headerTitleStyle: { color: color2, textAlign: 'center', fontWeight: 'bold' },
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="menu" color={color} size={size} />
           ),
@@ -55,6 +57,8 @@ function AppTabs() {
         name="settings"
         options={{
           headerShown: true,
+          headerStyle: { backgroundColor: color1, borderBottomColor: color2+"50", borderBottomWidth: 1 },
+          headerTitleStyle: { color: color2, textAlign: 'center', fontWeight: 'bold' },
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="settings" color={color} size={size} />
           ),
