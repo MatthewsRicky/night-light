@@ -1,15 +1,18 @@
-import { LightingProvider } from "@/context/LightingContext";
+import { LightingProvider, useLighting } from "@/context/LightingContext";
 import { UIProvider, useUI } from "@/context/UIContext";
 import { getContrastingColor } from "@/utils/colorUtils";
 import { getMoodColors } from "@/utils/moodColors";
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import "./globals.css"
 
 function AppTabs() {
   const { tabBarVisible } = useUI(); // 👈 state from context
-   const [color1, color2] = getMoodColors(mood);
-    const textColor = getContrastingColor(color1);
+  // TODO: Replace 'warm' with actual mood state or prop as needed
+   const { mood } = useLighting();
+  const [color1, color2] = getMoodColors(mood);
+  const textColor = getContrastingColor(color1);
   
 
   return (
@@ -18,7 +21,7 @@ function AppTabs() {
         headerShown: false,
         tabBarStyle: {
           display: tabBarVisible ? "flex" : "none", // 👈 reactive toggle
-          backgroundColor: color1,
+          backgroundColor: color2,
         },
       }}
     >
@@ -27,7 +30,7 @@ function AppTabs() {
         options={{
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="sunny" color={color} size={size} />
+            <Ionicons name="sunny" color={color1} size={size} />
           ),
           title: "Light",
           tabBarLabelStyle: { paddingBottom: 10, fontSize: 12 },
