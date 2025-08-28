@@ -96,7 +96,7 @@ export default function MoodSelector() {
       />
 
       {/* Controls — lifted above nav */}
-      <View style={{ alignItems: "center", marginTop: 12, marginBottom: 80 }}>
+      <View style={{ alignItems: "center", marginTop: 12, marginBottom: 40 }}>
         <ModeToggle />
       </View>
     </SafeAreaView>
