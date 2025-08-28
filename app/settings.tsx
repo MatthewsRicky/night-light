@@ -1,8 +1,8 @@
-import React from "react";
-import { SafeAreaView, ScrollView, Text, View, Pressable } from "react-native";
 import { Mood, useLighting } from "@/context/LightingContext";
-import { Picker } from "@react-native-picker/picker";
 import Slider from "@react-native-community/slider";
+import { Picker } from "@react-native-picker/picker";
+import React from "react";
+import { Pressable, SafeAreaView, ScrollView, Text, View } from "react-native";
 
 export default function SettingsScreen() {
   const { mode, setMode, flickerSpeed, setFlickerSpeed, mood, setMood } =
@@ -12,10 +12,6 @@ export default function SettingsScreen() {
     <SafeAreaView className="flex-1 ">
       <ScrollView
         contentContainerStyle={{
-          justifyContent: "center",
-          alignItems: "stretch",
-          height: "auto",
-
           paddingHorizontal: 16,
           paddingTop: 16,
           paddingBottom: 120, // leave space above BottomNav
@@ -23,22 +19,8 @@ export default function SettingsScreen() {
       >
         {/* Card */}
         <View
-          className="rounded-2xl border justify-center items-center p-4"
-          style={{
-            backgroundColor: "rgba(255,255,255,0.85)",
-            borderColor: "rgba(0,0,0,0.06)",
-            shadowColor: "#000",
-            shadowOpacity: 0.06,
-            shadowRadius: 12,
-            shadowOffset: { width: 0, height: 6 },
-            elevation: 2,
-            padding: 16,
-            marginVertical: 16,
-            justifyContent: "center",
-            alignItems: "center",
-            height: "auto",
-          }}
-        >
+          className="rounded-2xl border p-4">
+        
           <Text className="text-lg font-semibold mb-2">Lighting Mode</Text>
           <View
             className="rounded-xl border mb-4"
