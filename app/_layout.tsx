@@ -22,6 +22,7 @@ function AppTabs() {
         tabBarStyle: {
           display: tabBarVisible ? "flex" : "none", // 👈 reactive toggle
           backgroundColor: color2,
+          borderColor: "black",
         },
       }}
     >
@@ -29,43 +30,59 @@ function AppTabs() {
         name="index"
         options={{
           headerShown: false,
-          tabBarIcon: ({ size }) => (
-            <Ionicons name="sunny" color={color1} size={size} />
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="sunny" color={color} size={size} />
           ),
           title: "Light",
           tabBarLabelStyle: { paddingBottom: 10, fontSize: 12 },
-          tabBarActiveTintColor: "gold",
-          tabBarInactiveTintColor: "white",
+          tabBarActiveTintColor: "white",
+          tabBarInactiveTintColor: "black",
         }}
       />
       <Tabs.Screen
         name="mood"
         options={{
           headerShown: true,
-          headerStyle: { backgroundColor: color1, borderBottomColor: color2, borderBottomWidth: 1},
-          headerTitleStyle: { color: color2, textAlign: 'center', fontWeight: 'bold' },
+          headerStyle: {
+            backgroundColor: color2,
+            borderBottomColor: color2,
+            borderBottomWidth: 1,
+          },
+          headerTitleStyle: {
+            color: textColor,
+            textAlign: "center",
+            fontWeight: "bold",
+          },
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="menu" color={color} size={size} />
           ),
           title: "Mood",
           tabBarLabelStyle: { paddingBottom: 10, fontSize: 12 },
-          tabBarActiveTintColor: "gold",
-          tabBarInactiveTintColor: "white",
+          tabBarActiveTintColor: "white",
+          tabBarInactiveTintColor: "black",
         }}
       />
       <Tabs.Screen
         name="settings"
         options={{
           headerShown: true,
-          headerStyle: { backgroundColor: color1, borderBottomColor: color2+"50", borderBottomWidth: 1 },
-          headerTitleStyle: { color: color2, textAlign: 'center', fontWeight: 'bold' },
+          headerStyle: {
+            backgroundColor: color1,
+            borderBottomColor: color2 + "50",
+            borderBottomWidth: 1,
+          },
+          headerTitleStyle: {
+            color: textColor,
+            textAlign: "center",
+            fontWeight: "bold",
+          },
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="settings" color={color} size={size} />
           ),
           title: "settings",
           tabBarLabelStyle: { paddingBottom: 10, fontSize: 12 },
-          tabBarActiveTintColor: "gold",
-          tabBarInactiveTintColor: "white",
+          tabBarActiveTintColor: "white",
+          tabBarInactiveTintColor: "black",
         }}
       />
     </Tabs>
