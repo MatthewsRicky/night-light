@@ -5,15 +5,14 @@ import { getMoodColors } from "@/utils/moodColors";
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import "./globals.css"
+import "./globals.css";
 
 function AppTabs() {
   const { tabBarVisible } = useUI(); // 👈 state from context
   // TODO: Replace 'warm' with actual mood state or prop as needed
-   const { mood } = useLighting();
+  const { mood } = useLighting();
   const [color1, color2] = getMoodColors(mood);
   const textColor = getContrastingColor(color1);
-  
 
   return (
     <Tabs
