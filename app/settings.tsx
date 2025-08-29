@@ -2,6 +2,7 @@ import { Mood, useLighting } from "@/context/LightingContext";
 import { getMoodColors } from "@/utils/moodColors";
 import Slider from "@react-native-community/slider";
 import { Picker } from "@react-native-picker/picker";
+import { moods } from "@/components/MoodSelector"; // 👈 array with key, color, label
 import { useRouter } from "expo-router";
 import React from "react";
 import {
@@ -61,17 +62,14 @@ export default function SettingsScreen() {
             className="rounded-xl border mb-4"
             style={{ borderColor: "rgba(0,0,0,0.08)", overflow: "hidden" }}
           >
-            <Picker
-              selectedValue={mood}
-              onValueChange={(value: Mood) => setMood(value)}
-            >
-              <Picker.Item label="Warm" value="warm" />
-              <Picker.Item label="Cool" value="cool" />
-              <Picker.Item label="Nature" value="nature" />
-              <Picker.Item label="Royalty" value="royalty" />
-              <Picker.Item label="Love" value="love" />
-              <Picker.Item label="Elation" value="elation" />
-            </Picker>
+          <Picker
+  selectedValue={mood}
+  onValueChange={(value: Mood) => setMood(value)}
+>
+  {moods.map(({ key, label }) => (
+    <Picker.Item key={key} label={label} value={key} />
+  ))}
+</Picker>
           </View>
 
           <Text className="text-lg font-semibold mb-2">Flicker Speed</Text>
