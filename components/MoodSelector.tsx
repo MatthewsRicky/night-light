@@ -11,19 +11,44 @@ import {
   View,
 } from "react-native";
 import ModeToggle from "./ModeToggle";
+import { getMoodColors } from "@/utils/moodColors";
 
-const moods: { key: Mood; color: string; label: string }[] = [
-  { key: "warm", color: "#ff9933", label: "Warm" },
-  { key: "cool", color: "#3366ff", label: "Cool" },
-  { key: "green", color: "#00cc66", label: "Nature" },
-  { key: "purple", color: "#9933ff", label: "Royalty" },
-  { key: "pink", color: "#ff69b4", label: "Love" },
-  { key: "yellow", color: "#ffcc00", label: "Elation" },
+export const moods: { key: Mood; color: string; label: string }[] = [
+  // Alkali metals
+  { key: "lithium", color: "#FF2B2B", label: "Lithium" }, // crimson red
+  { key: "sodium", color: "#FFD466", label: "Sodium" }, // intense yellow-orange
+  { key: "potassium", color: "#B76EFF", label: "Potassium" }, // lilac/violet
+  { key: "rubidium", color: "#9E4A9E", label: "Rubidium" }, // deep red-violet
+  { key: "cesium", color: "#5A8AFF", label: "Cesium" }, // sky blue
+
+  // Alkaline earth metals
+  { key: "calcium", color: "#FF6F3C", label: "Calcium" }, // orange-red
+  { key: "strontium", color: "#FF3E3E", label: "Strontium" }, // scarlet red
+  { key: "barium", color: "#A7FF62", label: "Barium" }, // yellow-green
+  { key: "copper", color: "#00FFB3", label: "Copper" }, // blue-green (CuCl₂)
+  { key: "boron", color: "#50E0FF", label: "Boron" }, // bright blue (borax)
+
+  // Transition metals / rarer salts
+  { key: "iron", color: "#E1A95F", label: "Iron" }, // gold/amber sparks
+  { key: "manganese", color: "#FF80FF", label: "Manganese" }, // light pink/lavender
+  { key: "lead", color: "#8D8DFF", label: "Lead" }, // pale blue
+  { key: "antimony", color: "#89CFF0", label: "Antimony" }, // whitish blue
+  { key: "arsenic", color: "#99FF99", label: "Arsenic" }, // pale green
+
+  // Exotic colors
+  { key: "phosphorus", color: "#FFD1AA", label: "Phosphorus" }, // soft peach
+  { key: "selenium", color: "#FF9999", label: "Selenium" }, // reddish glow
+  { key: "thallium", color: "#00CC77", label: "Thallium" }, // emerald green
+  { key: "indium", color: "#4B9CD3", label: "Indium" }, // blue-indigo
+  { key: "tungsten", color: "#D4AF37", label: "Tungsten" }, // golden-white
 ];
 
 export default function MoodSelector() {
   const { setMood } = useLighting();
   const router = useRouter();
+    const { mood } = useLighting();
+    const [color1, color2] = getMoodColors(mood);
+    const textColor = getContrastingColor(color1);
 
   const handleSelect = (mood: Mood) => {
     setMood(mood);
@@ -34,7 +59,7 @@ export default function MoodSelector() {
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: "rgba(147,197,253,0.4)", // blue-300/40
+        backgroundColor: color1, // blue-300/40
         borderRadius: 20,
         padding: 16,
         marginVertical: 8,
