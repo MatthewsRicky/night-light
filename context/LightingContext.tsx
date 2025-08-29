@@ -1,21 +1,55 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, {
   createContext,
   useContext,
-  useState,
   useEffect,
   useMemo,
+  useState,
 } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export type Mood = "warm" | "cool" | "green" | "purple" | "pink" | "yellow";
+export type Mood =
+  | "lithium"
+  | "sodium"
+  | "potassium"
+  | "rubidium"
+  | "cesium"
+  | "calcium"
+  | "strontium"
+  | "barium"
+  | "copper"
+  | "boron"
+  | "iron"
+  | "manganese"
+  | "lead"
+  | "antimony"
+  | "arsenic"
+  | "phosphorus"
+  | "selenium"
+  | "thallium"
+  | "indium"
+  | "tungsten";
 
 const moodColorsMap: Record<Mood, [string, string]> = {
-  cool: ["#cceeff", "#3366ff"],
-  green: ["#d0ffd0", "#00cc66"],
-  purple: ["#e0d0ff", "#9933ff"],
-  pink: ["#ffd6e7", "#ff69b4"],
-  yellow: ["#fffdd0", "#ffcc00"],
-  warm: ["#ffecc7", "#ff9933"],
+  lithium: ["#ffccd5", "#ff4d6d"], // crimson/pink flame
+  sodium: ["#fff2b2", "#ffcc33"], // golden yellow
+  potassium: ["#d8c2ff", "#9966ff"], // soft violet
+  rubidium: ["#ffcce6", "#ff3399"], // reddish purple
+  cesium: ["#ccf2ff", "#3399ff"], // sky blue
+  calcium: ["#fff5cc", "#ffdd66"], // orange-red/amber
+  strontium: ["#ffd6cc", "#ff3300"], // bright red
+  barium: ["#e6ffcc", "#66ff33"], // apple green
+  copper: ["#ccffee", "#00ffaa"], // blue-green
+  boron: ["#d9e6ff", "#3366ff"], // blue
+  iron: ["#fff0cc", "#ff6600"], // orange (sparks)
+  manganese: ["#e6ccff", "#9933cc"], // pale lilac to purple
+  lead: ["#f2f2f2", "#cccccc"], // grayish (subdued white)
+  antimony: ["#f0f0f0", "#e6e6ff"], // pale blue-white
+  arsenic: ["#ccffe6", "#33cc99"], // turquoise green
+  phosphorus: ["#ffffe0", "#ffff66"], // glowing yellow-white
+  selenium: ["#ffcccc", "#ff3300"], // deep red
+  thallium: ["#e6ffcc", "#66cc00"], // green
+  indium: ["#d6e0ff", "#3366cc"], // blue-violet
+  tungsten: ["#e0e0ff", "#9999ff"], // bluish white
 };
 
 interface LightingContextProps {
@@ -42,7 +76,7 @@ export const LightingProvider = ({
   const [warmth, setWarmth] = useState(0.5);
   const [mode, setMode] = useState<"flicker" | "ambient">("flicker");
   const [flickerSpeed, setFlickerSpeed] = useState(300);
-  const [mood, setMood] = useState<Mood>("warm");
+  const [mood, setMood] = useState<Mood>("calcium");
 
   const moodColors = useMemo(() => moodColorsMap[mood], [mood]);
 
