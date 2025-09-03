@@ -13,6 +13,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import WarmthSlider from "@/components/WarmthSlider";
 
 export default function SettingsScreen() {
   const { mode, setMode, flickerSpeed, setFlickerSpeed, mood, setMood } =
@@ -85,6 +86,10 @@ export default function SettingsScreen() {
               thumbTintColor="#f59e0b"
             />
             <Text className="mt-1 text-base">{flickerSpeed} ms</Text>
+          </View>
+          <Text className="text-lg font-semibold mb-2">Warmth</Text>
+          <View className="px-1">
+            <WarmthSlider />
           </View>
 
           <Pressable
