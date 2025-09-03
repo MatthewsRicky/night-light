@@ -9,11 +9,11 @@ import React, {
 
 export type Mood =
   | "lithium"
-  | "sodium"
+
   | "potassium"
   | "rubidium"
   | "cesium"
-  | "calcium"
+
   | "strontium"
   | "barium"
   | "copper"
@@ -21,9 +21,9 @@ export type Mood =
   | "iron"
   | "manganese"
   | "lead"
-  | "antimony"
+
   | "arsenic"
-  | "phosphorus"
+ 
   | "selenium"
   | "thallium"
   | "indium"
@@ -31,11 +31,11 @@ export type Mood =
 
 const moodColorsMap: Record<Mood, [string, string]> = {
   lithium: ["#ffccd5", "#ff4d6d"], // crimson/pink flame
-  sodium: ["#fff2b2", "#ffcc33"], // golden yellow
+
   potassium: ["#d8c2ff", "#9966ff"], // soft violet
   rubidium: ["#ffcce6", "#ff3399"], // reddish purple
   cesium: ["#ccf2ff", "#3399ff"], // sky blue
-  calcium: ["#fff5cc", "#ffdd66"], // orange-red/amber
+
   strontium: ["#ffd6cc", "#ff3300"], // bright red
   barium: ["#e6ffcc", "#66ff33"], // apple green
   copper: ["#ccffee", "#00ffaa"], // blue-green
@@ -43,9 +43,9 @@ const moodColorsMap: Record<Mood, [string, string]> = {
   iron: ["#fff0cc", "#ff6600"], // orange (sparks)
   manganese: ["#e6ccff", "#9933cc"], // pale lilac to purple
   lead: ["#f2f2f2", "#cccccc"], // grayish (subdued white)
-  antimony: ["#f0f0f0", "#e6e6ff"], // pale blue-white
+
   arsenic: ["#ccffe6", "#33cc99"], // turquoise green
-  phosphorus: ["#ffffe0", "#ffff66"], // glowing yellow-white
+  
   selenium: ["#ffcccc", "#ff3300"], // deep red
   thallium: ["#e6ffcc", "#66cc00"], // green
   indium: ["#d6e0ff", "#3366cc"], // blue-violet
@@ -76,7 +76,7 @@ export const LightingProvider = ({
   const [warmth, setWarmth] = useState(0.5);
   const [mode, setMode] = useState<"flicker" | "ambient">("flicker");
   const [flickerSpeed, setFlickerSpeed] = useState(300);
-  const [mood, setMood] = useState<Mood>("calcium");
+  const [mood, setMood] = useState<Mood>("potassium");
 
   const moodColors = useMemo(() => moodColorsMap[mood], [mood]);
 
