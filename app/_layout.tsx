@@ -21,7 +21,6 @@ function AppTabs() {
         tabBarStyle: {
           display: tabBarVisible ? "flex" : "none", // 👈 reactive toggle
           backgroundColor: color2,
-          borderColor: "black",
         },
       }}
     >
@@ -34,8 +33,14 @@ function AppTabs() {
           ),
           title: "Light",
           tabBarLabelStyle: { paddingBottom: 10, fontSize: 12 },
-          tabBarActiveTintColor: "white",
+          tabBarActiveTintColor: "gold",
           tabBarInactiveTintColor: "black",
+          tabBarIconStyle: {
+            boxShadow: "0 0 2px black",
+            borderRadius: 8,
+            padding: 1,
+            justifyContent: "center",
+          },
         }}
       />
       <Tabs.Screen
@@ -43,7 +48,7 @@ function AppTabs() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: color2,
+            backgroundColor: color1,
             borderBottomColor: color2,
             borderBottomWidth: 1,
           },
@@ -57,8 +62,14 @@ function AppTabs() {
           ),
           title: "Mood",
           tabBarLabelStyle: { paddingBottom: 10, fontSize: 12 },
-          tabBarActiveTintColor: "white",
+          tabBarActiveTintColor: "gold",
           tabBarInactiveTintColor: "black",
+          tabBarIconStyle: {
+            boxShadow: "0 0 2px black",
+            borderRadius: 8,
+            padding: 1,
+            justifyContent: "center",
+          },
         }}
       />
       <Tabs.Screen
@@ -80,8 +91,14 @@ function AppTabs() {
           ),
           title: "settings",
           tabBarLabelStyle: { paddingBottom: 10, fontSize: 12 },
-          tabBarActiveTintColor: "white",
+          tabBarActiveTintColor: "gold",
           tabBarInactiveTintColor: "black",
+          tabBarIconStyle: {
+            boxShadow: "0 0 2px black",
+            borderRadius: 8,
+            padding: 1,
+            justifyContent: "center",
+          },
         }}
       />
     </Tabs>
