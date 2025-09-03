@@ -14,6 +14,11 @@ import {
 import ModeToggle from "./ModeToggle";
 
 export const moods: { key: Mood; color: string; label: string }[] = [
+
+  //main default
+
+  { key: "warm", color: "#FFB347", label: "Warm" }, // warm orange
+
   // Alkali metals
   { key: "lithium", color: "#FF2B2B", label: "Lithium" }, // crimson red
 

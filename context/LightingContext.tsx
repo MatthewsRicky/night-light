@@ -9,11 +9,10 @@ import React, {
 
 export type Mood =
   | "lithium"
-
+  | "warm" // default
   | "potassium"
   | "rubidium"
   | "cesium"
-
   | "strontium"
   | "barium"
   | "copper"
@@ -21,9 +20,7 @@ export type Mood =
   | "iron"
   | "manganese"
   | "lead"
-
   | "arsenic"
- 
   | "selenium"
   | "thallium"
   | "indium"
@@ -31,6 +28,7 @@ export type Mood =
 
 const moodColorsMap: Record<Mood, [string, string]> = {
   lithium: ["#ffccd5", "#ff4d6d"], // crimson/pink flame
+  warm: ["#ffecc7", "#ff9933"], // warm orange
 
   potassium: ["#d8c2ff", "#9966ff"], // soft violet
   rubidium: ["#ffcce6", "#ff3399"], // reddish purple
@@ -45,7 +43,7 @@ const moodColorsMap: Record<Mood, [string, string]> = {
   lead: ["#f2f2f2", "#cccccc"], // grayish (subdued white)
 
   arsenic: ["#ccffe6", "#33cc99"], // turquoise green
-  
+
   selenium: ["#ffcccc", "#ff3300"], // deep red
   thallium: ["#e6ffcc", "#66cc00"], // green
   indium: ["#d6e0ff", "#3366cc"], // blue-violet
@@ -73,10 +71,10 @@ export const LightingProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [warmth, setWarmth] = useState(0.5);
+  const [warmth, setWarmth] = useState(0.8);
   const [mode, setMode] = useState<"flicker" | "ambient">("flicker");
   const [flickerSpeed, setFlickerSpeed] = useState(300);
-  const [mood, setMood] = useState<Mood>("potassium");
+  const [mood, setMood] = useState<Mood>("warm");
 
   const moodColors = useMemo(() => moodColorsMap[mood], [mood]);
 

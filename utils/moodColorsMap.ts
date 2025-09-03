@@ -2,7 +2,7 @@ import { Mood } from "../context/LightingContext";
 
 export const moodColorsMap: Record<Mood, [string, string]> = {
   lithium: ["#ffccd5", "#ff4d6d"], // crimson/pink
-
+  warm: ["#ffecc7", "#ff9933"], // warm orange
   potassium: ["#d8c2ff", "#9966ff"], // violet
   rubidium: ["#ffcce6", "#ff3399"], // reddish purple
   cesium: ["#ccf2ff", "#3399ff"], // sky blue
