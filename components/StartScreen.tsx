@@ -116,7 +116,7 @@ export default function StartScreen() {
                 r="175"
                 fill={color2 + "20"}
                 stroke="url(#grad)"
-                strokeWidth={0.4}
+                strokeWidth={0.5}
               />
               <Circle
                 cx="175"
@@ -138,7 +138,7 @@ export default function StartScreen() {
                 cx="175"
                 cy="175"
                 r="110"
-                fill={color2 + "26"}
+                fill={color2 + "13"}
                 stroke="url(#grad)"
                 strokeWidth={0.2}
               />
