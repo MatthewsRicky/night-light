@@ -1,10 +1,10 @@
 {
   "expo": {
     "name": "night-light",
-    "slug": "night-light",
+    "slug": "Night Light",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/NightLighticon.png",
     "scheme": "nightlight",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -13,22 +13,22 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/images/NightLighticon.png",
+        "backgroundColor": "#FFFFFF"
       },
       "edgeToEdgeEnabled": true
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/NightLighticon.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/images/NightLighticon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
