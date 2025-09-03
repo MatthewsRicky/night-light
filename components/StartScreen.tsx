@@ -163,10 +163,10 @@ export default function StartScreen() {
                 }}
                 onPress={startFlicker}
               >
-                <Ionicons name="play" size={60} color={color2} />
+                <Ionicons name="play" size={60} color="slategray" />
                 <Text
                   style={{
-                    color: color2,
+                    color: "slategray",
                     fontWeight: "800",
                     fontSize: 20,
                     marginTop: 4,
