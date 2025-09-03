@@ -34,9 +34,9 @@ function AppTabs() {
           title: "Light",
           tabBarLabelStyle: { paddingBottom: 10, fontSize: 12 },
           tabBarActiveTintColor: "gold",
-          tabBarInactiveTintColor: "black",
+          tabBarInactiveTintColor: "white",
           tabBarIconStyle: {
-            boxShadow: "0 0 2px black",
+          
             borderRadius: 8,
             padding: 1,
             justifyContent: "center",
@@ -58,14 +58,14 @@ function AppTabs() {
             fontWeight: "bold",
           },
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="menu" color={color} size={size} />
+            <Ionicons name="color-palette-outline" color={color} size={size} />
           ),
           title: "Mood",
           tabBarLabelStyle: { paddingBottom: 10, fontSize: 12 },
           tabBarActiveTintColor: "gold",
-          tabBarInactiveTintColor: "black",
+          tabBarInactiveTintColor: "white",
           tabBarIconStyle: {
-            boxShadow: "0 0 2px black",
+           
             borderRadius: 8,
             padding: 1,
             justifyContent: "center",
@@ -92,9 +92,9 @@ function AppTabs() {
           title: "settings",
           tabBarLabelStyle: { paddingBottom: 10, fontSize: 12 },
           tabBarActiveTintColor: "gold",
-          tabBarInactiveTintColor: "black",
+          tabBarInactiveTintColor: "white",
           tabBarIconStyle: {
-            boxShadow: "0 0 2px black",
+          
             borderRadius: 8,
             padding: 1,
             justifyContent: "center",
