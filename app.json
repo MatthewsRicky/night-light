@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "night-light",
-    "slug": "Night Light",
+    "slug": "Flicker Light",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/NightLighticon.png",
