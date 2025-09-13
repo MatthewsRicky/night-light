@@ -34,9 +34,8 @@ function AppTabs() {
           title: "Light",
           tabBarLabelStyle: { paddingBottom: 10, fontSize: 12 },
           tabBarActiveTintColor: "gold",
-          tabBarInactiveTintColor: "white",
+          tabBarInactiveTintColor: "blueslate",
           tabBarIconStyle: {
-          
             borderRadius: 8,
             padding: 1,
             justifyContent: "center",
@@ -63,9 +62,8 @@ function AppTabs() {
           title: "Mood",
           tabBarLabelStyle: { paddingBottom: 10, fontSize: 12 },
           tabBarActiveTintColor: "gold",
-          tabBarInactiveTintColor: "white",
+          tabBarInactiveTintColor: "blueslate",
           tabBarIconStyle: {
-           
             borderRadius: 8,
             padding: 1,
             justifyContent: "center",
@@ -92,9 +90,8 @@ function AppTabs() {
           title: "settings",
           tabBarLabelStyle: { paddingBottom: 10, fontSize: 12 },
           tabBarActiveTintColor: "gold",
-          tabBarInactiveTintColor: "white",
+          tabBarInactiveTintColor: "blueslate",
           tabBarIconStyle: {
-          
             borderRadius: 8,
             padding: 1,
             justifyContent: "center",
