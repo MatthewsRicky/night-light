@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Flicker Light",
-    "slug": "Flicker Light",
+    "slug": "flicker-light",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/NightLighticon.png",
@@ -16,7 +16,8 @@
         "foregroundImage": "./assets/images/NightLighticon.png",
         "backgroundColor": "#000000"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.mvnk.flickerlight"
     },
     "web": {
       "bundler": "metro",
@@ -37,6 +38,12 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "1e002ac9-e23f-4938-811b-485c9294af6a"
+      }
     }
   }
 }
