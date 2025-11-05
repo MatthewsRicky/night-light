@@ -29,13 +29,17 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/FlickerLightSplashScreen.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "image": "./assets/images/FlickerLight.png",
+          "resizeMode": "cover",
+          "backgroundColor": "#000000"
         }
       ]
     ],
+    "splash": {
+      "image": "./assets/images/FlickerLight.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#000000"
+    },
     "experiments": {
       "typedRoutes": true
     },
