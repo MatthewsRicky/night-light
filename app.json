@@ -8,13 +8,24 @@
     "scheme": "nightlight",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-    "ios": {
-      "supportsTablet": true
+    "splash": {
+      "image": "./assets/images/FlickerLight.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#000000"
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/NightLighticon.png",
+      "splash": {
+        "image": "./assets/images/FlickerLight.png",
+        "resizeMode": "cover",
         "backgroundColor": "#000000"
+      }
+    },
+    "ios": {
+      "splash": {
+        "image": "./assets/images/FlickerLight.png",
+        "resizeMode": "cover",
+        "backgroundColor": "#000000",
+        "tabletImage": "./assets/images/FlickerLight.png"
       },
       "edgeToEdgeEnabled": true,
       "package": "com.mvnk.flickerlight"
@@ -24,22 +35,7 @@
       "output": "static",
       "favicon": "./assets/images/NightLighticon.png"
     },
-    "plugins": [
-      "expo-router",
-      [
-        "expo-splash-screen",
-        {
-          "image": "./assets/images/FlickerLight.png",
-          "resizeMode": "cover",
-          "backgroundColor": "#000000"
-        }
-      ]
-    ],
-    "splash": {
-      "image": "./assets/images/FlickerLight.png",
-      "resizeMode": "cover",
-      "backgroundColor": "#000000"
-    },
+    "plugins": ["expo-router"],
     "experiments": {
       "typedRoutes": true
     },
